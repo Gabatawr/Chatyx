@@ -1,26 +1,26 @@
 ﻿<Window x:Class="Chatyx.Views.Windows.MainWindow"
+        
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+        xmlns:cmd="clr-namespace:Chatyx.Infrastructure.Commands"
+        xmlns:vm="clr-namespace:Chatyx.ViewModels"
         xmlns:w="clr-namespace:Chatyx.Views.Windows"
         
         WindowStartupLocation="CenterScreen"
-        
-        xmlns:cmd="clr-namespace:Chatyx.Infrastructure.Commands"
-        xmlns:vm="clr-namespace:Chatyx.ViewModels"
 
-        cmd:WindowEvents.SourceInitialized="{Binding SourceInitializedEvent}"
         cmd:MouseCommands.MouseLeftButtonDown="{Binding AppCommands[MoveAppCommand]}">
 
     <Window.Style>
         <Style TargetType="{x:Type w:MainWindow}">
 
             <Setter Property="Height" Value="450"/>
-            <Setter Property="MinHeight" Value="{Binding MinHeightParameter}"/>
+            <Setter Property="MinHeight" Value="225"/>
 
             <Setter Property="Width" Value="800"/>
-            <Setter Property="MinWidth" Value="{Binding MinWidthParameter}"/>
+            <Setter Property="MinWidth" Value="400"/>
 
             <Setter Property="WindowStyle" Value="None"/>
             <Setter Property="AllowsTransparency" Value="True"/>
@@ -34,34 +34,85 @@
                         NonClientFrameEdges="None"
                         GlassFrameThickness="0"
                         ResizeBorderThickness="3,0,3,3"
-                        CaptionHeight="6"
+                        CaptionHeight="12"
                         CornerRadius="0"/>
                 </Setter.Value>
             </Setter>
 
         </Style>
     </Window.Style>
-    
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
 
     <Grid>
-        <Grid Height="14" Width="45" Margin="0,6,6,0"
-                VerticalAlignment="Top" HorizontalAlignment="Right">
+        <Grid Height="14" Width="30" Margin="0,12,12,0"
+              VerticalAlignment="Top" HorizontalAlignment="Right">
 
             <Button ToolTip="Minimize" Style="{StaticResource BtnAppControl}"
                     HorizontalAlignment="Left" Background="Yellow"
                     Command="{Binding AppCommands[MinimizeAppCommand]}"/>
 
-            <Button ToolTip="Maximize" Style="{StaticResource BtnAppControl}"
-                    HorizontalAlignment="Center" Background="Orange"
-                    Command="{Binding AppCommands[MaximizeAppCommand]}"/>
-
             <Button ToolTip="Close" Style="{StaticResource BtnAppControl}"
                     HorizontalAlignment="Right"  Background="Red"
                     Command="{Binding AppCommands[CloseAppCommand]}"/>
         </Grid>
+        
+        <!--........................................................................-->
+        
+        <StackPanel Margin="6,6" Orientation="Vertical"
+                    MaxHeight="144" MaxWidth="378">
+
+            <TextBlock Style="{StaticResource HeaderText}">IP</TextBlock>
+            <TextBox Style="{StaticResource EnterText}"
+                     Margin="0,2" Height="24" 
+                     Text="{Binding IPParam}"
+                     IsEnabled="{Binding IsClientModeParam}"/>
+
+            <TextBlock Style="{StaticResource HeaderText}">Port</TextBlock>
+            <TextBox Style="{StaticResource EnterText}"
+                     Margin="0,2" Height="24" 
+                     Text="{Binding PortParam}"
+                     IsEnabled="{Binding IsClientModeParam}"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="BtnClientMode" Style="{StaticResource ChangeModeStyle}"
+                        Foreground="{Binding ClientModeParam}"
+                        cmd:MouseCommands.Click="{Binding ChangeModeCommand}">
+                    Client
+                </Button>
+
+                <Button x:Name="BtnServerMode" Grid.Column="1" Style="{StaticResource ChangeModeStyle}"
+                        Foreground="{Binding ServerModeParam}"
+                        cmd:MouseCommands.Click="{Binding ChangeModeCommand}">
+                    Server
+                </Button>
+            </Grid>
+
+            <Button Height="24" Margin="0,2"
+                    FontWeight="Medium"
+                    Background="#007DFF"
+                    Foreground="White"
+                    cmd:MouseCommands.Click="{Binding ConnectCommand}">Connect</Button>
+
+
+        </StackPanel>
+        
+        <!--........................................................................-->
+        
+        <Border ToolTip="Connection status"
+                VerticalAlignment="Bottom"
+                Opacity="1"
+                Background="{Binding ConnectColorParam}"
+                BorderThickness="0"
+                CornerRadius="5,5,0,0"
+                Height="5" Margin="64, 0"/>
+
     </Grid>
     
 </Window>

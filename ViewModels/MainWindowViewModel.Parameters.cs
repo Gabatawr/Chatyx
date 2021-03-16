@@ -1,29 +1,76 @@
-﻿namespace Chatyx.ViewModels
+﻿using Chatyx.Infrastructure.Services;
+using System.Windows.Media;
+
+namespace Chatyx.ViewModels
 {
     partial class MainWindowViewModel
     {
         //---------------------------------------------------------------------
-        #region int : MainWindowsMinWidthParameter
+        #region string : IPParam
 
-        private double _MainWindowsMinWidthParameter;
-        public double MinWidthParameter
+        private string _IPParam;
+        public string IPParam
         {
-            get => _MainWindowsMinWidthParameter;
-            set => Set(ref _MainWindowsMinWidthParameter, value);
+            get => _IPParam;
+            set => Set(ref _IPParam, value);
         }
 
-        #endregion int : MainWindowsMinWidthParameter
-        //---------------------------------------------------------------------
-        #region int : MainWindowsMinHeightParameter
+        #endregion string : IPParam
+        //--------------------------------------------------------------------
+        #region string : PortParam
 
-        private double _MainWindowsMinHeightParameter;
-        public double MinHeightParameter
+        private string _PortParam;
+        public string PortParam
         {
-            get => _MainWindowsMinHeightParameter;
-            set => Set(ref _MainWindowsMinHeightParameter, value);
+            get => _PortParam;
+            set => Set(ref _PortParam, value);
         }
 
-        #endregion int : MainWindowsMinHeightParameter
+        #endregion string : PortParam
+        //--------------------------------------------------------------------
+        #region SolidColorBrush : ConnectColorParam
+
+        private SolidColorBrush _ConnectColorParam;
+        public SolidColorBrush ConnectColorParam
+        {
+            get => _ConnectColorParam ??= new SolidColorBrush(Colors.White);
+            set => Set(ref _ConnectColorParam, value);
+        }
+
+        #endregion SolidColorBrush : ConnectColorParam
+        //--------------------------------------------------------------------
+        #region SolidColorBrush : ClientModeParam
+
+        private SolidColorBrush _ClientModeParam;
+        public SolidColorBrush ClientModeParam
+        {
+            get => _ClientModeParam ??= new SolidColorBrush(AppMode.GetColor(AppModeService.Modes.Client));
+            set => Set(ref _ClientModeParam, value);
+        }
+
+        #endregion SolidColorBrush : ClientModeParam
+        //--------------------------------------------------------------------
+        #region SolidColorBrush : ServerModeParam
+
+        private SolidColorBrush _ServerModeParam;
+        public SolidColorBrush ServerModeParam
+        {
+            get => _ServerModeParam ??= new SolidColorBrush(AppMode.GetColor(AppModeService.Modes.Server));
+            set => Set(ref _ServerModeParam, value);
+        }
+
+        #endregion SolidColorBrush : ServerModeParam
+        //--------------------------------------------------------------------
+        #region SolidColorBrush : IsClientModeParam
+
+        private bool _IsClientModeParam;
+        public bool IsClientModeParam
+        {
+            get => _IsClientModeParam;
+            set => Set(ref _IsClientModeParam, value);
+        }
+
+        #endregion SolidColorBrush : IsClientModeParam
         //---------------------------------------------------------------------
     }
 }
