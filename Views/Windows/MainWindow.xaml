@@ -72,8 +72,7 @@
             <TextBlock Style="{StaticResource HeaderText}">Port</TextBlock>
             <TextBox Style="{StaticResource EnterText}"
                      Margin="0,2" Height="24" 
-                     Text="{Binding PortParam}"
-                     IsEnabled="{Binding IsClientModeParam}"/>
+                     Text="{Binding PortParam}"/>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -98,7 +97,8 @@
                     FontWeight="Medium"
                     Background="#007DFF"
                     Foreground="White"
-                    cmd:MouseCommands.Click="{Binding ConnectCommand}">Connect</Button>
+                    cmd:MouseCommands.Click="{Binding ConnectCommand}"
+                    Content="{Binding GoTextParam}"/>
 
 
         </StackPanel>

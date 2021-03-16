@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Windows;
 using System.Windows.Controls;
 using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.Infrastructure.Services;
@@ -13,18 +15,33 @@ namespace Chatyx.Infrastructure.Commands
 
         public override void Execute(object e)
         {
-            if (((Button)((RoutedEventArgs)e).Source).Name == "BtnServerMode"
-                && vm.AppMode.Current == AppModeService.Modes.Client)
-            {
-                vm.AppMode.Current = AppModeService.Modes.Server;
-                vm.IsClientModeParam = false;
-            }
-
-            else if (((Button)((RoutedEventArgs)e).Source).Name == "BtnClientMode"
+            if (((Button)((RoutedEventArgs)e).Source).Name == "BtnClientMode"
                 && vm.AppMode.Current == AppModeService.Modes.Server)
             {
                 vm.AppMode.Current = AppModeService.Modes.Client;
                 vm.IsClientModeParam = true;
+
+                vm.GoTextParam = "Connect";
+            }
+
+            else if (((Button)((RoutedEventArgs)e).Source).Name == "BtnServerMode"
+                && vm.AppMode.Current == AppModeService.Modes.Client)
+            {
+                vm.AppMode.Current = AppModeService.Modes.Server;
+                vm.IsClientModeParam = false;
+
+                // lan
+                //foreach (var ip in (Dns.GetHostEntry(Dns.GetHostName())).AddressList)
+                //{
+                //    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                //        vm.IPParam =  ip.ToString();
+                //}
+
+                // local
+                vm.IPParam = "127.0.0.1";
+                vm.PortParam = "8081";
+
+                vm.GoTextParam = "Start";
             }
 
             vm.ClientModeParam.Color = vm.AppMode.GetColor(AppModeService.Modes.Client);

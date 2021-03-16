@@ -28,6 +28,17 @@ namespace Chatyx.ViewModels
 
         #endregion string : PortParam
         //--------------------------------------------------------------------
+        #region string : GoTextParam
+
+        private string _GoTextParam = "Connect";
+        public string GoTextParam
+        {
+            get => _GoTextParam;
+            set => Set(ref _GoTextParam, value);
+        }
+
+        #endregion string : GoTextParam
+        //--------------------------------------------------------------------
         #region SolidColorBrush : ConnectColorParam
 
         private SolidColorBrush _ConnectColorParam;
