@@ -24,7 +24,7 @@ namespace Chatyx.ViewModels
         private Command _ConnectCommand;
         public Command ConnectCommand
         {
-            get => _ConnectCommand ??= new ConnectCommand(this);
+            get => _ConnectCommand ??= new GoCommand(this);
             set => _ConnectCommand = value;
         }
 
