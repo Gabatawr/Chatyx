@@ -1,5 +1,6 @@
 ﻿using Chatyx.Infrastructure.Services;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Windows.Media;
 
@@ -28,7 +29,6 @@ namespace Chatyx.ViewModels
         }
 
         #endregion string : IPParam
-        //--------------------------------------------------------------------
         #region string : PortParam
 
         private string _PortParam;
@@ -82,7 +82,6 @@ namespace Chatyx.ViewModels
         }
 
         #endregion SolidColorBrush : ClientModeParam
-        //--------------------------------------------------------------------
         #region SolidColorBrush : ServerModeParam
 
         private SolidColorBrush _ServerModeParam;
@@ -107,7 +106,7 @@ namespace Chatyx.ViewModels
         //--------------------------------------------------------------------
         #region bool : IsAppDisconnectedParam
 
-        private bool _IsAppDisconnectedParam = true;
+        private bool _IsAppDisconnectedParam;
         public bool IsAppDisconnectedParam
         {
             get => _IsAppDisconnectedParam;
@@ -115,10 +114,9 @@ namespace Chatyx.ViewModels
         }
 
         #endregion bool : IsAppDisconnectedParam
-        //--------------------------------------------------------------------
         #region bool : IsAppConnectedParam
 
-        private bool _IsAppConnectedParam = false;
+        private bool _IsAppConnectedParam;
         public bool IsAppConnectedParam
         {
             get => _IsAppConnectedParam;
@@ -126,6 +124,17 @@ namespace Chatyx.ViewModels
         }
 
         #endregion bool : IsAppConnectedParam
+        //--------------------------------------------------------------------
+        #region List<string> : MassagesListParam
+
+        private List<string> _MassagesListParam;
+        public List<string> MassagesListParam
+        {
+            get => _MassagesListParam ??= new();
+            set => Set(ref _MassagesListParam, value);
+        }
+
+        #endregion List<string> : MassagesListParam
         //--------------------------------------------------------------------
     }
 }

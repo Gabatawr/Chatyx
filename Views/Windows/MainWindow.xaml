@@ -120,9 +120,10 @@
 
                 </StackPanel>
 
-                <Grid Background="BlueViolet"
-                      Visibility="{Binding Path=IsAppConnectedParam, Converter={StaticResource BoolToVisibilityConverter}}">
-                    
+                <Grid Visibility="{Binding Path=IsAppConnectedParam, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ListView Background="Black" BorderThickness="0" ItemsSource="{Binding MassagesListParam}">
+                        
+                    </ListView>
                 </Grid>
             </Grid>
             
