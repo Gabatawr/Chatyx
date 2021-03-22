@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace Chatyx.Infrastructure.Services
 {
@@ -21,6 +20,7 @@ namespace Chatyx.Infrastructure.Services
             return mode == AppModeService.Modes.Server ? StartServer() :
                    mode == AppModeService.Modes.Client ? StartClient() : false;
         }
+        //-----------------------------------------------------
         private bool StartServer()
         {
             Socket server;
@@ -33,109 +33,69 @@ namespace Chatyx.Infrastructure.Services
                 server.Bind(eP);
                 server.Listen(10);
             }
-            catch {return Disconnect();}
+            catch { return false; }
 
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    Socket client = server.Accept();
-                    Task.Run(() =>
-                    {
-                        try
-                        {
-                            StringBuilder clientMsg = new();
-                            var buff = new byte[256];
-                            int bytes = 0;
-
-                            while (true)
-                            {
-                                do
-                                {
-                                    bytes = client.Receive(buff);
-                                    clientMsg.Append(Encoding.ASCII.GetString(buff, 0, bytes));
-                                } while (client.Available > 0);
-
-                                string Massege(Socket s, string msg)
-                                {
-                                    var dtn = DateTime.Now;
-                                    return dtn.ToString("t")
-                                    + " from "
-                                    + $"[{s.LocalEndPoint}]"
-                                    + $" : {msg}";
-                                }
-
-                                //Console.WriteLine(Massege(client, clientMsg.ToString()));
-                                clientMsg.Clear();
-
-                                client.Send(Encoding.ASCII.GetBytes(Massege(client, "Message received")));
-                            }
-                        }
-                        catch {}
-                        finally {client.Close(); }
-                    });
-                }
-            }).ContinueWith((t) => {server.Close();});
-
+            Task.Factory.StartNew(ServerConnectWaitHandler, server);
             return true;
         }
-
+        private void ServerConnectWaitHandler(object obj)
+        {
+            if (obj is Socket server)
+            {
+                try
+                { 
+                    while (true)
+                    {
+                        Socket client = server.Accept();
+                        Task.Factory.StartNew(MessageListener, client);
+                    }
+                }
+                catch { }
+                finally { server.Close(); }
+                
+            }
+        }
+        //-----------------------------------------------------
         private bool StartClient()
         {
-            Socket client;
+            Socket server;
 
             try
             {
                 IPEndPoint eP = new(IP, Port);
-                client = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                client.Connect(eP);
+                server = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                server.Connect(eP);
             }
-            catch {return Disconnect(); }
+            catch { return false; }
 
-            StringBuilder serverMsg = new();
-            var buff = new byte[256];
-            int bytes = 0;
-
-            Task.Run(() =>
+            Task.Factory.StartNew(MessageListener, server);
+            return true;
+        }
+        //-----------------------------------------------------
+        private void MessageListener(object obj)
+        {
+            if (obj is Socket connect)
             {
+                StringBuilder msgBuilder = new();
+                var buff = new byte[256];
+                int bytes = 0;
+
                 try
                 {
                     while (true)
                     {
-                        //Console.Write("Message : ");
-                        string msg = "Hello World";//Console.ReadLine();
-
-                        if (string.IsNullOrEmpty(msg) is false)
+                        do
                         {
-                            client.Send(Encoding.ASCII.GetBytes(msg));
-                            do
-                            {
-                                bytes = client.Receive(buff);
-                                serverMsg.Append(Encoding.ASCII.GetString(buff, 0, bytes));
-                            } while (client.Available > 0);
-
-                            //Console.WriteLine(serverMsg);
-                            serverMsg.Clear();
-                        }
-                        //else Console.WriteLine("Massage empty..");
-                        //Console.WriteLine();
+                            bytes = connect.Receive(buff);
+                            msgBuilder.Append(Encoding.ASCII.GetString(buff, 0, bytes));
+                        } while (connect.Available > 0);
                     }
                 }
-                catch {}
-                finally {client.Close();}
-            });
-
-            return true;
+                catch { }
+                finally { connect.Close(); }
+            }
         }
+
         //-----------------------------------------------------
-        private bool Disconnect()
-        {
-            vm.IsAppDisconnectedParam = true;
-            vm.IsAppConnectedParam = false;
-
-            vm.ConnectColorParam.Color = new Color { A = 255, R = 255, G = 69, B = 0 };
-
-            return false;
-        }
     }
 }
