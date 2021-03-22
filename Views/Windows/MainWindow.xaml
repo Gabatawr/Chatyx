@@ -13,6 +13,9 @@
 
         cmd:MouseCommands.MouseLeftButtonDown="{Binding AppCommands[MoveAppCommand]}">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Window.Resources>
     <Window.Style>
         <Style TargetType="{x:Type w:MainWindow}">
 
@@ -69,52 +72,60 @@
                     Background="{Binding ConnectColorParam}"
                     BorderThickness="0"
                     CornerRadius="5,5,0,0"
-                    Height="5" Margin="64, 0"/>
+                    Height="5" Margin="64,12,64,0"/>
 
             <!--........................................................................-->
 
-            <StackPanel Margin="6,0" Orientation="Vertical"
-                        MaxHeight="144" MaxWidth="378">
+            <Grid>
+                <StackPanel Margin="6,0" Orientation="Vertical"
+                            MaxHeight="144" MaxWidth="378"
+                            Visibility="{Binding Path=IsAppDisconnectedParam, Converter={StaticResource BoolToVisibilityConverter}}">
 
-                <TextBlock Style="{StaticResource HeaderText}">IP</TextBlock>
-                <TextBox Style="{StaticResource EnterText}"
-                         Margin="0,2" Height="24" 
-                         Text="{Binding IPParam}"
-                         IsEnabled="{Binding IsClientModeParam}"/>
+                    <TextBlock Style="{StaticResource HeaderText}">IP</TextBlock>
+                    <TextBox Style="{StaticResource EnterText}"
+                             Margin="0,2" Height="24" 
+                             Text="{Binding IPParam}"
+                             IsEnabled="{Binding IsClientModeParam}"/>
 
-                <TextBlock Style="{StaticResource HeaderText}">Port</TextBlock>
-                <TextBox Style="{StaticResource EnterText}"
-                         Margin="0,2" Height="24" 
-                         Text="{Binding PortParam}"/>
+                    <TextBlock Style="{StaticResource HeaderText}">Port</TextBlock>
+                    <TextBox Style="{StaticResource EnterText}"
+                             Margin="0,2" Height="24" 
+                             Text="{Binding PortParam}"/>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-                    <Button x:Name="BtnClientMode" Style="{StaticResource ChangeModeStyle}"
-                            Foreground="{Binding ClientModeParam}"
-                            cmd:MouseCommands.Click="{Binding ChangeModeCommand}">
-                        Client
-                    </Button>
+                        <Button x:Name="BtnClientMode" Style="{StaticResource ChangeModeStyle}"
+                                Foreground="{Binding ClientModeParam}"
+                                cmd:MouseCommands.Click="{Binding ChangeModeCommand}">
+                                Client
+                        </Button>
 
-                    <Button x:Name="BtnServerMode" Grid.Column="1" Style="{StaticResource ChangeModeStyle}"
-                            Foreground="{Binding ServerModeParam}"
-                            cmd:MouseCommands.Click="{Binding ChangeModeCommand}">
-                        Server
-                    </Button>
+                        <Button x:Name="BtnServerMode" Grid.Column="1" Style="{StaticResource ChangeModeStyle}"
+                                Foreground="{Binding ServerModeParam}"
+                                cmd:MouseCommands.Click="{Binding ChangeModeCommand}">
+                                Server
+                        </Button>
+                    </Grid>
+
+                    <Button Height="24" Margin="0,2"
+                            FontWeight="Medium"
+                            Background="#007DFF"
+                            Foreground="White"
+                            cmd:MouseCommands.Click="{Binding GoCommand}"
+                            Content="{Binding GoTextParam}"/>
+
+                </StackPanel>
+
+                <Grid Background="BlueViolet"
+                      Visibility="{Binding Path=IsAppConnectedParam, Converter={StaticResource BoolToVisibilityConverter}}">
+                    
                 </Grid>
-
-                <Button Height="24" Margin="0,2"
-                        FontWeight="Medium"
-                        Background="#007DFF"
-                        Foreground="White"
-                        cmd:MouseCommands.Click="{Binding GoCommand}"
-                        Content="{Binding GoTextParam}"/>
-
-            </StackPanel>
-
+            </Grid>
+            
         </DockPanel>
 
     </Grid>

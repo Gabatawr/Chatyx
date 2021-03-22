@@ -30,16 +30,16 @@ namespace Chatyx.Infrastructure.Commands
                 vm.AppMode.Current = AppModeService.Modes.Server;
                 vm.IsClientModeParam = false;
 
-                // lan
+                // Lan
                 //foreach (var ip in (Dns.GetHostEntry(Dns.GetHostName())).AddressList)
                 //{
                 //    if (ip.AddressFamily == AddressFamily.InterNetwork)
                 //        vm.IPParam =  ip.ToString();
                 //}
 
-                // local
-                vm.IPParam = "127.0.0.1";
-                vm.PortParam = "8081";
+                // Loopback
+                vm.IPParam = IPAddress.Loopback.ToString();
+                vm.PortParam = 8180.ToString();
 
                 vm.GoTextParam = "Start";
             }

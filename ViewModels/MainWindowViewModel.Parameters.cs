@@ -1,18 +1,30 @@
 ﻿using Chatyx.Infrastructure.Services;
+using System;
+using System.Net;
 using System.Windows.Media;
 
 namespace Chatyx.ViewModels
 {
     partial class MainWindowViewModel
     {
-        //---------------------------------------------------------------------
+        //--------------------------------------------------------------------
         #region string : IPParam
 
         private string _IPParam;
         public string IPParam
         {
             get => _IPParam;
-            set => Set(ref _IPParam, value);
+            set
+            {
+                if (Set(ref _IPParam, value))
+                {
+                    IPAddress tmp;
+                    if (IPAddress.TryParse(value, out tmp))
+                        Connect.IP = tmp;
+                    else
+                        Set(ref _IPParam, Connect.IP.ToString());
+                }
+            }
         }
 
         #endregion string : IPParam
@@ -23,7 +35,17 @@ namespace Chatyx.ViewModels
         public string PortParam
         {
             get => _PortParam;
-            set => Set(ref _PortParam, value);
+            set 
+            {
+                if (Set(ref _PortParam, value))
+                {
+                    ushort tmp;
+                    if (ushort.TryParse(value, out tmp))
+                        Connect.Port = tmp;
+                    else
+                        Set(ref _PortParam, Connect.Port.ToString());
+                }
+            }
         }
 
         #endregion string : PortParam
@@ -72,7 +94,7 @@ namespace Chatyx.ViewModels
 
         #endregion SolidColorBrush : ServerModeParam
         //--------------------------------------------------------------------
-        #region SolidColorBrush : IsClientModeParam
+        #region bool : IsClientModeParam
 
         private bool _IsClientModeParam;
         public bool IsClientModeParam
@@ -81,7 +103,29 @@ namespace Chatyx.ViewModels
             set => Set(ref _IsClientModeParam, value);
         }
 
-        #endregion SolidColorBrush : IsClientModeParam
-        //---------------------------------------------------------------------
+        #endregion bool : IsClientModeParam
+        //--------------------------------------------------------------------
+        #region bool : IsAppDisconnectedParam
+
+        private bool _IsAppDisconnectedParam = true;
+        public bool IsAppDisconnectedParam
+        {
+            get => _IsAppDisconnectedParam;
+            set => Set(ref _IsAppDisconnectedParam, value);
+        }
+
+        #endregion bool : IsAppDisconnectedParam
+        //--------------------------------------------------------------------
+        #region bool : IsAppConnectedParam
+
+        private bool _IsAppConnectedParam = false;
+        public bool IsAppConnectedParam
+        {
+            get => _IsAppConnectedParam;
+            set => Set(ref _IsAppConnectedParam, value);
+        }
+
+        #endregion bool : IsAppConnectedParam
+        //--------------------------------------------------------------------
     }
 }
