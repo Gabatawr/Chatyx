@@ -97,8 +97,9 @@
                     FontWeight="Medium"
                     Background="#007DFF"
                     Foreground="White"
-                    cmd:MouseCommands.Click="{Binding GoCommand}"
+                    cmd:MouseCommands.Click="{Binding ConnectCommand}"
                     Content="{Binding GoTextParam}"/>
+
 
         </StackPanel>
         
