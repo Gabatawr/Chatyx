@@ -7,15 +7,15 @@ namespace Chatyx.ViewModels
     {
         public void AppConnected()
         {
-            IsAppDisconnectedParam = false;
-            IsAppConnectedParam = true;
+            ShowConnectPanelParam = false;
+            ShowLoginPanelParam = true;
 
             ConnectColorParam.Color = new Color { A = 255, R = 0, G = 125, B = 255 };
         }
         public void AppDisconnected()
         {
-            IsAppDisconnectedParam = true;
-            IsAppConnectedParam = false;
+            ShowConnectPanelParam = true;
+            ShowLoginPanelParam = false;
 
             ConnectColorParam.Color = new Color { A = 255, R = 255, G = 69, B = 0 };
         }

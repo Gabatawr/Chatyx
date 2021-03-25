@@ -50,6 +50,27 @@ namespace Chatyx.ViewModels
 
         #endregion string : PortParam
         //--------------------------------------------------------------------
+        #region string : LoginParam
+
+        private string _LoginParam;
+        public string LoginParam
+        {
+            get => _LoginParam;
+            set => Set(ref _LoginParam, value);
+        }
+
+        #endregion string : LoginParam
+        #region string : PasswordParam
+
+        private string _PasswordParam;
+        public string PasswordParam
+        {
+            get => _PasswordParam;
+            set => Set(ref _PasswordParam, value);
+        }
+
+        #endregion string : PasswordParam
+        //--------------------------------------------------------------------
         #region string : GoTextParam
 
         private string _GoTextParam = "Connect";
@@ -104,26 +125,36 @@ namespace Chatyx.ViewModels
 
         #endregion bool : IsClientModeParam
         //--------------------------------------------------------------------
-        #region bool : IsAppDisconnectedParam
+        #region bool : ShowConnectPanelParam
 
-        private bool _IsAppDisconnectedParam;
-        public bool IsAppDisconnectedParam
+        private bool _ShowConnectPanelParam;
+        public bool ShowConnectPanelParam
         {
-            get => _IsAppDisconnectedParam;
-            set => Set(ref _IsAppDisconnectedParam, value);
+            get => _ShowConnectPanelParam;
+            set => Set(ref _ShowConnectPanelParam, value);
         }
 
-        #endregion bool : IsAppDisconnectedParam
-        #region bool : IsAppConnectedParam
+        #endregion bool : ShowConnectPanelParam
+        #region bool : ShowLoginPanelParam
 
-        private bool _IsAppConnectedParam;
-        public bool IsAppConnectedParam
+        private bool _ShowLoginPanelParam;
+        public bool ShowLoginPanelParam
         {
-            get => _IsAppConnectedParam;
-            set => Set(ref _IsAppConnectedParam, value);
+            get => _ShowLoginPanelParam;
+            set => Set(ref _ShowLoginPanelParam, value);
         }
 
-        #endregion bool : IsAppConnectedParam
+        #endregion bool : ShowLoginPanelParam
+        #region bool : ShowChatBoxPanelParam
+
+        private bool _ShowChatBoxPanelParam;
+        public bool ShowChatBoxPanelParam
+        {
+            get => _ShowChatBoxPanelParam;
+            set => Set(ref _ShowChatBoxPanelParam, value);
+        }
+
+        #endregion bool : ShowChatBoxPanelParam
         //--------------------------------------------------------------------
         #region List<string> : MassagesListParam
 

@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         xmlns:cmd="clr-namespace:Chatyx.Infrastructure.Commands"
+        xmlns:ser="clr-namespace:Chatyx.Infrastructure.Services"
         xmlns:vm="clr-namespace:Chatyx.ViewModels"
         xmlns:w="clr-namespace:Chatyx.Views.Windows"
         
@@ -79,7 +80,7 @@
             <Grid>
                 <StackPanel Margin="6,0" Orientation="Vertical"
                             MaxHeight="144" MaxWidth="378"
-                            Visibility="{Binding Path=IsAppDisconnectedParam, Converter={StaticResource BoolToVisibilityConverter}}">
+                            Visibility="{Binding Path=ShowConnectPanelParam, Converter={StaticResource BoolToVisibilityConverter}}">
 
                     <TextBlock Style="{StaticResource HeaderText}">IP</TextBlock>
                     <TextBox Style="{StaticResource EnterText}"
@@ -115,16 +116,47 @@
                             FontWeight="Medium"
                             Background="#007DFF"
                             Foreground="White"
-                            cmd:MouseCommands.Click="{Binding GoCommand}"
+                            cmd:MouseCommands.Click="{Binding ConnectCommand}"
                             Content="{Binding GoTextParam}"/>
 
                 </StackPanel>
 
-                <Grid Visibility="{Binding Path=IsAppConnectedParam, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ListView Background="Black" BorderThickness="0" ItemsSource="{Binding MassagesListParam}">
+                <StackPanel Margin="6,0" Orientation="Vertical" 
+                            MaxHeight="144" MaxWidth="378"
+                            Visibility="{Binding Path=ShowLoginPanelParam, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                    <TextBlock Style="{StaticResource HeaderText}">Login</TextBlock>
+                    <TextBox Style="{StaticResource EnterText}"
+                             Margin="0,2" Height="24" 
+                             Text="{Binding LoginParam}"/>
+
+                    <TextBlock Style="{StaticResource HeaderText}">Password</TextBlock>
+                    <PasswordBox Style="{StaticResource PasswordStyle}"
+                                 Margin="0,2" Height="24" 
+                                 ser:PasswordService.BindPassword="true"
+                                 ser:PasswordService.TextPassword="{Binding PasswordParam, Mode=TwoWay}"/>
+
+                    <Grid Margin="0,18,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
                         
-                    </ListView>
-                </Grid>
+                        <Button Grid.Column="0" Height="24" Margin="0,0,3,0"
+                                FontWeight="Medium" Background="#007DFF" Foreground="White"
+                                cmd:MouseCommands.Click="{Binding LoginCommand}">
+                            Login
+                        </Button>
+
+                        <Button Grid.Column="1" Height="24" Margin="3,0,0,0"
+                                FontWeight="Medium" Background="#007DFF" Foreground="White"
+                                cmd:MouseCommands.Click="{Binding RegistrationCommand}">
+                            Registration
+                        </Button>
+                    </Grid>
+                    
+
+                </StackPanel>
             </Grid>
             
         </DockPanel>

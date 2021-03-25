@@ -19,16 +19,16 @@ namespace Chatyx.ViewModels
 
         #endregion Command : AppCommands
         //---------------------------------------------------------------------
-        #region Command : GoCommand
+        #region Command : ConnectCommand
 
-        private Command _GoCommand;
-        public Command GoCommand
+        private Command _ConnectCommand;
+        public Command ConnectCommand
         {
-            get => _GoCommand ??= new GoCommand(this);
-            set => _GoCommand = value;
+            get => _ConnectCommand ??= new ConnectCommand(this);
+            set => _ConnectCommand = value;
         }
 
-        #endregion Command : GoCommand
+        #endregion Command : ConnectCommand
         //---------------------------------------------------------------------
         #region Command : ChangeModeCommand
 

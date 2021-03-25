@@ -4,10 +4,10 @@ using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
 {
-    class GoCommand : Command
+    class ConnectCommand : Command
     {
         private readonly MainWindowViewModel vm;
-        public GoCommand(MainWindowViewModel vm) => this.vm = vm;
+        public ConnectCommand(MainWindowViewModel vm) => this.vm = vm;
 
         public override void Execute(object e)
         {

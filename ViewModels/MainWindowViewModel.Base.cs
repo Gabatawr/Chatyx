@@ -11,19 +11,16 @@ namespace Chatyx.ViewModels
         public ConnectionService Connect { get; }
         public MainWindowViewModel()
         {
-            IsAppConnectedParam = true;
-            IsAppDisconnectedParam = false;
+            bool SKIP = false;
+
+            ShowLoginPanelParam = SKIP;
+            ShowConnectPanelParam = !SKIP;
 
             AppMode = new AppModeService(this);
             Connect = new ConnectionService(this);
 
             IPParam = IPAddress.Loopback.ToString();
             PortParam = 8180.ToString();
-
-            MassagesListParam.Add("123");
-            MassagesListParam.Add("123");
-            MassagesListParam.Add("123");
-            MassagesListParam.Add("123");
 
             _IsClientModeParam = AppMode.Current == AppModeService.Modes.Client;
         }
