@@ -46,7 +46,8 @@ namespace Chatyx.Infrastructure.Services
             { 
                 while (true)
                 {
-                    Server.AcceptAsync().ContinueWith((t) => MessageListener(t.Result));
+                    Client = Server.Accept();
+                    Task.Run(() => MessageListener(Client));
                 }
             }
             catch { }
@@ -84,10 +85,19 @@ namespace Chatyx.Infrastructure.Services
                             msgBuilder.Append(Encoding.Unicode.GetString(buff, 0, bytes));
                         } while (connect.Available > 0);
 
-                        vm.MessageItems.Add(new(msgBuilder.ToString()));
+                        if (String.IsNullOrEmpty(msgBuilder.ToString()) is false)
+                        {
+                            lock (vm.MessageItemsBlock)
+                                vm.MessageItems.Add(new(msgBuilder.ToString()));
+                            msgBuilder.Clear();
+                        }
+                     
                     }
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    string s = e.Message; 
+                }
                 finally { connect.Close(); }
             }
         }

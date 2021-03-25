@@ -182,6 +182,8 @@ namespace Chatyx.ViewModels
         //--------------------------------------------------------------------
         #region ObservableCollection<Symbol> : MessageItems
 
+        public object MessageItemsBlock = new object();
+
         private ObservableCollection<MessageModel> _MessageItems = new();
         public ObservableCollection<MessageModel> MessageItems
         {
