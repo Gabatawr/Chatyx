@@ -85,7 +85,7 @@ namespace Chatyx.Infrastructure.Services
                             msgBuilder.Append(Encoding.ASCII.GetString(buff, 0, bytes));
                         } while (connect.Available > 0);
 
-
+                        //TODO: show message
                     }
                 }
                 catch { }

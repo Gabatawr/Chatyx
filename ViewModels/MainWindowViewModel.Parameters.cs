@@ -1,6 +1,8 @@
 ﻿using Chatyx.Infrastructure.Services;
+using Chatyx.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows.Media;
 
@@ -178,5 +180,16 @@ namespace Chatyx.ViewModels
 
         #endregion List<string> : MassagesListParam
         //--------------------------------------------------------------------
+        #region ObservableCollection<Symbol> : MessageItems
+
+        private ObservableCollection<MessageModel> _MessageItems = new();
+        public ObservableCollection<MessageModel> MessageItems
+        {
+            get => _MessageItems;
+            set => Set(ref _MessageItems, value);
+        }
+
+        #endregion
+        //---------------------------------------------------------------------
     }
 }

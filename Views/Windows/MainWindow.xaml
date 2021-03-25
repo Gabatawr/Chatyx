@@ -194,6 +194,38 @@
 
                             </Grid>
                             <Grid Background="#E78282">
+
+                                <ItemsControl ItemsSource="{Binding MessageItems}">
+                                    
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            
+                                            <Border CornerRadius="8" Background="Black"
+                                                    Margin="12,6" Padding="6"
+                                                    
+                                                    HorizontalAlignment="{Binding Alignment}">
+                                                
+                                                <WrapPanel Orientation="Horizontal">
+                                                    
+                                                    <TextBlock Text="{Binding Time}" 
+                                                               Foreground="#B8B8B8" Margin="3,0"/>
+                                                    <TextBlock Text="{Binding Message}"
+                                                               Foreground="White" Margin="3,0"/>
+                                                    
+                                                </WrapPanel>
+                                                
+                                            </Border>
+                                            
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    
+                                </ItemsControl>
                                 
                             </Grid>
                         </DockPanel>
