@@ -12,22 +12,22 @@ namespace Chatyx.ViewModels
         public ConnectionService Connect { get; }
         public MainWindowViewModel()
         {
+            ShowConnectPanelParam = true;
             ShowLoginPanelParam = false;
-            ShowConnectPanelParam = false;
-            ShowChatBoxPanelParam = true;
+            ShowChatBoxPanelParam = false;
 
-            /*
-                //MessageModel m1 = new MessageModel("Message 1");
-                //MessageModel m2 = new MessageModel("Message 2", true);
-                //MessageModel m3 = new MessageModel("Message 3");
-                //MessageModel m4 = new MessageModel("Message 4", true);
-                //MessageModel m5 = new MessageModel("Message 5", true);
-                //MessageItems.Add(m1);
-                //MessageItems.Add(m2);
-                //MessageItems.Add(m3);
-                //MessageItems.Add(m4);
-                //MessageItems.Add(m5);
-            */
+            
+                MessageModel m1 = new MessageModel("Message 1");
+                MessageModel m2 = new MessageModel("Message 2", true);
+                MessageModel m3 = new MessageModel("Message 3");
+                MessageModel m4 = new MessageModel("Message 4", true);
+                MessageModel m5 = new MessageModel("Message 5", true);
+                MessageItems.Add(m1);
+                MessageItems.Add(m2);
+                MessageItems.Add(m3);
+                MessageItems.Add(m4);
+                MessageItems.Add(m5);
+            
 
             AppMode = new AppModeService(this);
             Connect = new ConnectionService(this);

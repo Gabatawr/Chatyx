@@ -30,6 +30,17 @@ namespace Chatyx.ViewModels
 
         #endregion Command : ConnectCommand
         //---------------------------------------------------------------------
+        #region Command : SendMessageTextCommand
+
+        private Command _SendMessageTextCommand;
+        public Command SendMessageTextCommand
+        {
+            get => _SendMessageTextCommand ??= new SendMessageTextCommand(this);
+            set => _SendMessageTextCommand = value;
+        }
+
+        #endregion Command : SendMessageTextCommand
+        //---------------------------------------------------------------------
         #region Command : ChangeModeCommand
 
         private Command _ChangeModeCommand;

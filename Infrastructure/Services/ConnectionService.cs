@@ -1,4 +1,5 @@
-﻿using Chatyx.ViewModels;
+﻿using Chatyx.Model;
+using Chatyx.ViewModels;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -32,7 +33,7 @@ namespace Chatyx.Infrastructure.Services
                 Server = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 Server.Bind(eP);
-                Server.Listen(10);
+                Server.Listen(1);
             }
             catch { return false; }
 
@@ -45,8 +46,7 @@ namespace Chatyx.Infrastructure.Services
             { 
                 while (true)
                 {
-                    Socket client = Server.Accept();
-                    Task.Factory.StartNew(MessageListener, client);
+                    Server.AcceptAsync().ContinueWith((t) => MessageListener(t.Result));
                 }
             }
             catch { }
@@ -73,7 +73,6 @@ namespace Chatyx.Infrastructure.Services
             {
                 StringBuilder msgBuilder = new();
                 var buff = new byte[256];
-                int bytes = 0;
 
                 try
                 {
@@ -81,11 +80,11 @@ namespace Chatyx.Infrastructure.Services
                     {
                         do
                         {
-                            bytes = connect.Receive(buff);
-                            msgBuilder.Append(Encoding.ASCII.GetString(buff, 0, bytes));
+                            int bytes = connect.Receive(buff);
+                            msgBuilder.Append(Encoding.Unicode.GetString(buff, 0, bytes));
                         } while (connect.Available > 0);
 
-                        //TODO: show message
+                        vm.MessageItems.Add(new(msgBuilder.ToString()));
                     }
                 }
                 catch { }
