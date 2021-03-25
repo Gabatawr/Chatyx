@@ -5,6 +5,8 @@ namespace Chatyx.ViewModels
 {
     partial class MainWindowViewModel
     {
+        //---------------------------------------------------------------------
+        #region AppConnected
         public void AppConnected()
         {
             ShowConnectPanelParam = false;
@@ -12,6 +14,8 @@ namespace Chatyx.ViewModels
 
             ConnectColorParam.Color = new Color { A = 255, R = 0, G = 125, B = 255 };
         }
+        #endregion AppConnected
+        #region AppDisconnected
         public void AppDisconnected()
         {
             ShowConnectPanelParam = true;
@@ -19,5 +23,22 @@ namespace Chatyx.ViewModels
 
             ConnectColorParam.Color = new Color { A = 255, R = 255, G = 69, B = 0 };
         }
+        #endregion AppDisconnected
+        //---------------------------------------------------------------------
+        #region AppLoginON
+        public void AppLoginON()
+        {
+            ShowLoginPanelParam = false;
+            ShowChatBoxPanelParam = true;
+        }
+        #endregion AppLoginON
+        #region AppLoginOFF
+        public void AppLoginOFF()
+        {
+            ShowLoginPanelParam = true;
+            ShowChatBoxPanelParam = false;
+        }
+        #endregion AppLoginOFF
+        //---------------------------------------------------------------------
     }
 }

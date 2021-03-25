@@ -6,7 +6,7 @@ namespace Chatyx.ViewModels
 {
     partial class MainWindowViewModel
     {
-        //--------------------------------------------------------------------
+        //---------------------------------------------------------------------
         #region Command : AppCommands
 
         private Dictionary<string, Command> _AppCommands = new()
@@ -40,6 +40,27 @@ namespace Chatyx.ViewModels
         }
 
         #endregion Command : ChangeModeCommand
-        //--------------------------------------------------------------------
+        //---------------------------------------------------------------------
+        #region Command : LoginCommand
+
+        private Command _LoginCommand;
+        public Command LoginCommand
+        {
+            get => _LoginCommand ??= new LoginCommand(this);
+            set => _LoginCommand = value;
+        }
+
+        #endregion Command : LoginCommand
+        #region Command : RegistrationCommand
+
+        private Command _RegistrationCommand;
+        public Command RegistrationCommand
+        {
+            get => _RegistrationCommand ??= new RegistrationCommand(this);
+            set => _RegistrationCommand = value;
+        }
+
+        #endregion Command : RegistrationCommand
+        //---------------------------------------------------------------------
     }
 }

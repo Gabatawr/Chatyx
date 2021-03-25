@@ -71,6 +71,17 @@ namespace Chatyx.ViewModels
 
         #endregion string : PasswordParam
         //--------------------------------------------------------------------
+        #region string : MessageTextParam
+
+        private string _MessageTextParam;
+        public string MessageTextParam
+        {
+            get => _MessageTextParam;
+            set => Set(ref _MessageTextParam, value);
+        }
+
+        #endregion string : MessageTextParam
+        //--------------------------------------------------------------------
         #region string : GoTextParam
 
         private string _GoTextParam = "Connect";
@@ -147,7 +158,7 @@ namespace Chatyx.ViewModels
         #endregion bool : ShowLoginPanelParam
         #region bool : ShowChatBoxPanelParam
 
-        private bool _ShowChatBoxPanelParam;
+        private bool _ShowChatBoxPanelParam = false;
         public bool ShowChatBoxPanelParam
         {
             get => _ShowChatBoxPanelParam;

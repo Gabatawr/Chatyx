@@ -141,7 +141,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Button Grid.Column="0" Height="24" Margin="0,0,3,0"
                                 FontWeight="Medium" Background="#007DFF" Foreground="White"
                                 cmd:MouseCommands.Click="{Binding LoginCommand}">
@@ -155,8 +155,51 @@
                         </Button>
                     </Grid>
                     
-
                 </StackPanel>
+
+                <DockPanel LastChildFill="True"
+                           Visibility="{Binding Path=ShowChatBoxPanelParam, Converter={StaticResource BoolToVisibilityConverter}}">
+                    
+                    <Grid DockPanel.Dock="Top" Background="#777DFF"
+                          Width="auto" Height="64">
+                        
+                    </Grid>
+
+                    <Grid DockPanel.Dock="Left" Background="#3F56C6"
+                          Width="128" Height="auto">
+
+                    </Grid>
+
+                    <Grid Background="#A13FC6">
+                        <DockPanel LastChildFill="True">
+                            <Grid DockPanel.Dock="Bottom" Background="White"
+                                  Width="auto" Height="32">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="0.1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox Grid.Column="0" Style="{StaticResource EnterText}"
+                                         Margin="3,0" Height="24"
+                                         
+                                         TextAlignment="Right"
+                                         Text="{Binding MessageTextParam}"/>
+
+                                <Button Grid.Column="1" Margin="3,0" Height="24"
+                                        FontWeight="Medium" Background="#007DFF" Foreground="White"
+                                        cmd:MouseCommands.Click="{Binding SendMessageTextCommand}">
+                                    Send
+                                </Button>
+
+                            </Grid>
+                            <Grid Background="#E78282">
+                                
+                            </Grid>
+                        </DockPanel>
+                    </Grid>
+                    
+                </DockPanel>
             </Grid>
             
         </DockPanel>

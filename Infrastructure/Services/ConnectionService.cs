@@ -9,6 +9,9 @@ namespace Chatyx.Infrastructure.Services
 {
     class ConnectionService
     {
+        public Socket Server { get; set; }
+        public Socket Client { get; set; }
+        //-----------------------------------------------------
         public IPAddress IP { get; set; }
         public UInt16 Port { get; set; }
         //-----------------------------------------------------
@@ -23,52 +26,44 @@ namespace Chatyx.Infrastructure.Services
         //-----------------------------------------------------
         private bool StartServer()
         {
-            Socket server;
-
             try
             {
                 IPEndPoint eP = new(IP, Port);
-                server = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                Server = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                server.Bind(eP);
-                server.Listen(10);
+                Server.Bind(eP);
+                Server.Listen(10);
             }
             catch { return false; }
 
-            Task.Factory.StartNew(ServerConnectWaitHandler, server);
+            Task.Run(ServerConnectWaitHandler);
             return true;
         }
-        private void ServerConnectWaitHandler(object obj)
+        private void ServerConnectWaitHandler()
         {
-            if (obj is Socket server)
-            {
-                try
-                { 
-                    while (true)
-                    {
-                        Socket client = server.Accept();
-                        Task.Factory.StartNew(MessageListener, client);
-                    }
+            try
+            { 
+                while (true)
+                {
+                    Socket client = Server.Accept();
+                    Task.Factory.StartNew(MessageListener, client);
                 }
-                catch { }
-                finally { server.Close(); }
-                
             }
+            catch { }
+            finally { Server.Close(); }
         }
         //-----------------------------------------------------
         private bool StartClient()
         {
-            Socket server;
-
             try
             {
                 IPEndPoint eP = new(IP, Port);
-                server = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                server.Connect(eP);
+                Client = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                Client.Connect(eP);
             }
             catch { return false; }
 
-            Task.Factory.StartNew(MessageListener, server);
+            Task.Factory.StartNew(MessageListener, Client);
             return true;
         }
         //-----------------------------------------------------
@@ -89,13 +84,14 @@ namespace Chatyx.Infrastructure.Services
                             bytes = connect.Receive(buff);
                             msgBuilder.Append(Encoding.ASCII.GetString(buff, 0, bytes));
                         } while (connect.Available > 0);
+
+
                     }
                 }
                 catch { }
                 finally { connect.Close(); }
             }
         }
-
         //-----------------------------------------------------
     }
 }
