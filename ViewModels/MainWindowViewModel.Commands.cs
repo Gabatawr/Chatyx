@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Input;
 using Chatyx.Infrastructure.Commands;
 using Chatyx.Infrastructure.Commands.Base;
 

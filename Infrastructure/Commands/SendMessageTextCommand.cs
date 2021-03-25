@@ -1,6 +1,7 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.ViewModels;
 using System.Text;
+using System.Windows.Input;
 
 namespace Chatyx.Infrastructure.Commands
 {
@@ -13,10 +14,11 @@ namespace Chatyx.Infrastructure.Commands
         {
             vm.Connect.Client.Send(Encoding.Unicode.GetBytes(vm.MessageTextParam));
             vm.MessageItems.Add(new(vm.MessageTextParam, true));
+            vm.MessageTextParam = string.Empty;
         }
 
         public override bool CanExecute(object e)
-        {
+        { 
             return string.IsNullOrEmpty(vm.MessageTextParam) is false;
         }
     }

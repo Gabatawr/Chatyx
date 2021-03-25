@@ -23,8 +23,11 @@ namespace Chatyx.ViewModels
             AppMode = new AppModeService(this);
             Connect = new ConnectionService(this);
 
-            //IPParam = IPAddress.Loopback.ToString();
-            //PortParam = 8180.ToString();
+            IPParam = IPAddress.Loopback.ToString();
+            PortParam = 8180.ToString();
+
+            LoginParam = "Admin";
+            PasswordParam = "admin";
 
             _IsClientModeParam = AppMode.Current == AppModeService.Modes.Client;
         }
