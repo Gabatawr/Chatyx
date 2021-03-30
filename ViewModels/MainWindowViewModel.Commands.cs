@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Input;
 using Chatyx.Infrastructure.Commands;
 using Chatyx.Infrastructure.Commands.Base;
 
@@ -10,20 +9,20 @@ namespace Chatyx.ViewModels
         //---------------------------------------------------------------------
         #region Command : AppCommands
 
-        private Dictionary<string, Command> _AppCommands = new()
+        private Dictionary<string, AppCommand> _AppCommands = new()
         {
             { nameof(MoveAppCommand),     new MoveAppCommand()     },
             { nameof(MinimizeAppCommand), new MinimizeAppCommand() },
             { nameof(CloseAppCommand),    new CloseAppCommand()    }
         };
-        public Dictionary<string, Command> AppCommands => _AppCommands;
+        public Dictionary<string, AppCommand> AppCommands => _AppCommands;
 
         #endregion Command : AppCommands
         //---------------------------------------------------------------------
         #region Command : ConnectCommand
 
-        private Command _ConnectCommand;
-        public Command ConnectCommand
+        private AppCommand _ConnectCommand;
+        public AppCommand ConnectCommand
         {
             get => _ConnectCommand ??= new ConnectCommand(this);
             set => _ConnectCommand = value;
@@ -33,8 +32,8 @@ namespace Chatyx.ViewModels
         //---------------------------------------------------------------------
         #region Command : SendMessageTextCommand
 
-        private Command _SendMessageTextCommand;
-        public Command SendMessageTextCommand
+        private AppCommand _SendMessageTextCommand;
+        public AppCommand SendMessageTextCommand
         {
             get => _SendMessageTextCommand ??= new SendMessageTextCommand(this);
             set => _SendMessageTextCommand = value;
@@ -44,8 +43,8 @@ namespace Chatyx.ViewModels
         //---------------------------------------------------------------------
         #region Command : ChangeModeCommand
 
-        private Command _ChangeModeCommand;
-        public Command ChangeModeCommand
+        private AppCommand _ChangeModeCommand;
+        public AppCommand ChangeModeCommand
         {
             get => _ChangeModeCommand ??= new ChangeModeCommand(this);
             set => _ChangeModeCommand = value;
@@ -55,8 +54,8 @@ namespace Chatyx.ViewModels
         //---------------------------------------------------------------------
         #region Command : LoginCommand
 
-        private Command _LoginCommand;
-        public Command LoginCommand
+        private AppCommand _LoginCommand;
+        public AppCommand LoginCommand
         {
             get => _LoginCommand ??= new LoginCommand(this);
             set => _LoginCommand = value;
@@ -65,8 +64,8 @@ namespace Chatyx.ViewModels
         #endregion Command : LoginCommand
         #region Command : RegistrationCommand
 
-        private Command _RegistrationCommand;
-        public Command RegistrationCommand
+        private AppCommand _RegistrationCommand;
+        public AppCommand RegistrationCommand
         {
             get => _RegistrationCommand ??= new RegistrationCommand(this);
             set => _RegistrationCommand = value;

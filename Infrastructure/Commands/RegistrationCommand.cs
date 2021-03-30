@@ -3,19 +3,16 @@ using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
 {
-    class RegistrationCommand : Command
+    class RegistrationCommand : AppCommand
     {
         private readonly MainWindowViewModel vm;
         public RegistrationCommand(MainWindowViewModel vm) => this.vm = vm;
 
-        public override void Execute(object e)
+        public override void Command(object e)
         {
             
         }
 
-        public override bool CanExecute(object e)
-        {
-            return true;
-        }
+        public override bool CanExecute(object e) => true;
     }
 }

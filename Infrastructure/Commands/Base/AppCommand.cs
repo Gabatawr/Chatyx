@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Chatyx.Infrastructure.Commands.Base
 {
-    internal abstract class Command : ICommand
+    internal abstract class AppCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -11,7 +11,11 @@ namespace Chatyx.Infrastructure.Commands.Base
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public abstract bool CanExecute(object p);
-        public abstract void Execute(object p);
+        public abstract void Command(object e);
+        public abstract bool CanExecute(object e);
+        public void Execute(object e)
+        {
+            if (CanExecute(e)) Command(e);
+        }
     }
 }

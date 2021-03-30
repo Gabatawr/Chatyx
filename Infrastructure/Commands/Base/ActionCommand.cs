@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chatyx.Infrastructure.Commands.Base
 {
-    class ActionCommand : Command
+    class ActionCommand : AppCommand
     {
-        private readonly Action<object> _Execute;
+        private readonly Action<object> _Command;
         private readonly Func<object, bool> _CanExecute;
 
-        public ActionCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        public ActionCommand(Action<object> command, Func<object, bool> canExecute = null)
         {
-            _Execute = execute ?? throw new ArgumentNullException(nameof(Execute));
+            _Command = command ?? throw new ArgumentNullException(nameof(Execute));
             _CanExecute = canExecute;
         }
 
         public override bool CanExecute(object p) => _CanExecute?.Invoke(p) ?? true;
-        public override void Execute(object p) { if (CanExecute(p)) _Execute(p); }
+        public override void Command(object p) => _Command(p); 
     }
 }

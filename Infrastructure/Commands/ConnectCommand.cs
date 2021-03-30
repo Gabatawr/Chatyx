@@ -4,12 +4,12 @@ using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
 {
-    class ConnectCommand : Command
+    class ConnectCommand : AppCommand
     {
         private readonly MainWindowViewModel vm;
         public ConnectCommand(MainWindowViewModel vm) => this.vm = vm;
 
-        public override void Execute(object e)
+        public override void Command(object e)
         {
             if (vm.Connect.TryConnect(vm.AppMode.Current))
                 vm.AppConnected();
@@ -20,7 +20,7 @@ namespace Chatyx.Infrastructure.Commands
         public override bool CanExecute(object e)
         {
             return vm.AppMode.Current == AppModeService.Modes.Client
-                && vm.AppMode.Current == AppModeService.Modes.Server;
+                || vm.AppMode.Current == AppModeService.Modes.Server;
         }
     }
 }

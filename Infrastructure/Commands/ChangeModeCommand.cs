@@ -8,12 +8,12 @@ using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
 {
-    class ChangeModeCommand : Command
+    class ChangeModeCommand : AppCommand
     {
         private readonly MainWindowViewModel vm;
         public ChangeModeCommand(MainWindowViewModel vm) => this.vm = vm;
 
-        public override void Execute(object e)
+        public override void Command(object e)
         {
             if (((Button)((RoutedEventArgs)e).Source).Name == "BtnClientMode"
                 && vm.AppMode.Current == AppModeService.Modes.Server)
