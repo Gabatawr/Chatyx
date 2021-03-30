@@ -1,6 +1,7 @@
 ﻿using Chatyx.Model;
 using Chatyx.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -10,6 +11,8 @@ namespace Chatyx.Infrastructure.Services
 {
     class ConnectionService
     {
+        List<Socket> Clients = new();
+        //-----------------------------------------------------
         public Socket Server { get; set; }
         public Socket Client { get; set; }
         //-----------------------------------------------------
@@ -46,8 +49,9 @@ namespace Chatyx.Infrastructure.Services
             { 
                 while (true)
                 {
-                    Client = Server.Accept();
-                    Task.Run(() => MessageListener(Client));
+                    Socket client = Server.Accept();
+                    Clients.Add(client);
+                    Task.Run(() => MessageListener(client));
                 }
             }
             catch { }
@@ -91,16 +95,24 @@ namespace Chatyx.Infrastructure.Services
                                 vm.MessageItems.Add(new(msgBuilder.ToString()));
                             msgBuilder.Clear();
                         }
-                     
                     }
                 }
                 catch (Exception e)
                 {
-                    string s = e.Message; 
+                    string s = e.Message;
+                    Clients.Remove(connect);
                 }
                 finally { connect.Close(); }
             }
         }
         //-----------------------------------------------------
+        public void ServerSendMessage(string msg)
+        {
+            foreach (var client in Clients)
+                client.Send(Encoding.Unicode.GetBytes(vm.MessageTextParam));
+
+            vm.MessageItems.Add(new(vm.MessageTextParam, true));
+            vm.MessageTextParam = string.Empty;
+        }
     }
 }

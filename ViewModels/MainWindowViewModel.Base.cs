@@ -1,15 +1,12 @@
 ﻿using System.Net;
-using System.Windows;
 using System.Windows.Data;
 using Chatyx.Infrastructure.Services;
-using Chatyx.Model;
 using Chatyx.ViewModels.Base;
 
 namespace Chatyx.ViewModels
 {
     partial class MainWindowViewModel : ViewModel
     {
-        
         public AppModeService AppMode { get; }
         public ConnectionService Connect { get; }
         public MainWindowViewModel()

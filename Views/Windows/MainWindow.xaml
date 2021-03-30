@@ -182,11 +182,13 @@
 
                                 <TextBox Grid.Column="0" Style="{StaticResource EnterText}"
                                          Margin="3,0" Height="24"
-                                         
-                                         TextAlignment="Right"
-                                         Text="{Binding MessageTextParam}">
+                                         Text="{Binding MessageTextParam, UpdateSourceTrigger=PropertyChanged}">
+                                    
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Key="Enter" Command="{Binding SendMessageTextCommand}"/>
+                                    </TextBox.InputBindings>
+                                    
                                 </TextBox>
-
 
                                 <Button Grid.Column="1" Margin="3,0" Height="24"
                                         FontWeight="Medium" Background="#007DFF" Foreground="White"
