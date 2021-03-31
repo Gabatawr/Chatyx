@@ -1,5 +1,6 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.Infrastructure.Services;
+using Chatyx.Infrastructure.Services.Connection;
 using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
@@ -11,16 +12,12 @@ namespace Chatyx.Infrastructure.Commands
 
         public override void Command(object e)
         {
-            if (vm.Connect.TryConnect(vm.AppMode.Current))
+            if (vm.Connect.Start())
                 vm.AppConnected();
             else
                 vm.AppDisconnected();
         }
 
-        public override bool CanExecute(object e)
-        {
-            return vm.AppMode.Current == AppModeService.Modes.Client
-                || vm.AppMode.Current == AppModeService.Modes.Server;
-        }
+        public override bool CanExecute(object e) => vm.AppMode != null;
     }
 }

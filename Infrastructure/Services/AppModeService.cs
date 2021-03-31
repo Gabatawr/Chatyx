@@ -1,18 +1,42 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
+using Chatyx.Infrastructure.Services.Connection;
 using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Services
 {
-    internal class AppModeService
+    public class AppModeService
     {
+        //-----------------------------------------------------
+        public static Color EnableColor = new Color() { A = 255, R = 119, G = 119, B = 119 };
+        public static Color DisableColor = new Color() { A = 255, R = 68, G = 68, B = 68 };
+        //-----------------------------------------------------
         public enum Modes { Client, Server }
-        public Modes Current { get; set; } = Modes.Client;
+        //-----------------------------------------------------
+        private Modes _current;
+        public Modes Current 
+        {
+            get => _current;
+            set
+            {
+                _current = value;
 
-        public Color GetColor(Modes mode) => Current == mode ? 
-                new Color() { A = 255, R = 119, G = 119, B = 119 } // Enable
-                : new Color() { A = 255, R = 68, G = 68, B = 68 }; // Disable
+                vm.Connect = _current switch
+                {
+                    Modes.Client => new ClientConnectionService(),
+                    Modes.Server => new ServerConnectionService(),
 
+                    _ => throw new System.NotImplementedException()
+                };
+            }
+        }
+        //-----------------------------------------------------
         private MainWindowViewModel vm;
-        public AppModeService(MainWindowViewModel vm) => this.vm = vm;
+        public AppModeService()
+        {
+            vm = (MainWindowViewModel)Application.Current.MainWindow.DataContext;
+            Current = Modes.Client;
+        }
+        //-----------------------------------------------------
     }
 }

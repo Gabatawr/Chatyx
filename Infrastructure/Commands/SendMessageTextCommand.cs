@@ -10,7 +10,7 @@ namespace Chatyx.Infrastructure.Commands
 
         public override void Command(object e)
         {
-            vm.Connect.ServerSendMessage(vm.MessageTextParam);
+            vm.Connect.SendMessage(vm.MessageTextParam);
         }
 
         public override bool CanExecute(object e)

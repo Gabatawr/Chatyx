@@ -45,9 +45,6 @@
 
         </Style>
     </Window.Style>
-    <Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>
 
     <Grid>
         <DockPanel LastChildFill="True">

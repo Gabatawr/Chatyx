@@ -18,14 +18,9 @@ namespace Chatyx.ViewModels
             get => _IPParam;
             set
             {
-                if (Set(ref _IPParam, value))
-                {
-                    IPAddress tmp;
-                    if (IPAddress.TryParse(value, out tmp))
-                        Connect.IP = tmp;
-                    else
-                        Set(ref _IPParam, Connect.IP.ToString());
-                }
+                IPAddress tmp;
+                if (IPAddress.TryParse(value, out tmp))
+                    Set(ref _IPParam, value);
             }
         }
 
@@ -38,14 +33,9 @@ namespace Chatyx.ViewModels
             get => _PortParam;
             set 
             {
-                if (Set(ref _PortParam, value))
-                {
-                    ushort tmp;
-                    if (ushort.TryParse(value, out tmp))
-                        Connect.Port = tmp;
-                    else
-                        Set(ref _PortParam, Connect.Port.ToString());
-                }
+                ushort tmp;
+                if (ushort.TryParse(value, out tmp))
+                    Set(ref _PortParam, value);
             }
         }
 
@@ -110,7 +100,7 @@ namespace Chatyx.ViewModels
         private SolidColorBrush _ClientModeParam;
         public SolidColorBrush ClientModeParam
         {
-            get => _ClientModeParam ??= new SolidColorBrush(AppMode.GetColor(AppModeService.Modes.Client));
+            get => _ClientModeParam ??= new SolidColorBrush(AppModeService.DisableColor);
             set => Set(ref _ClientModeParam, value);
         }
 
@@ -120,7 +110,7 @@ namespace Chatyx.ViewModels
         private SolidColorBrush _ServerModeParam;
         public SolidColorBrush ServerModeParam
         {
-            get => _ServerModeParam ??= new SolidColorBrush(AppMode.GetColor(AppModeService.Modes.Server));
+            get => _ServerModeParam ??= new SolidColorBrush(AppModeService.DisableColor);
             set => Set(ref _ServerModeParam, value);
         }
 

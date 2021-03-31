@@ -1,8 +1,5 @@
 ﻿using Chatyx.Infrastructure.Services.Connection.Base;
-using Chatyx.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -10,30 +7,38 @@ using System.Threading.Tasks;
 
 namespace Chatyx.Infrastructure.Services.Connection
 {
-    internal class ClientConnectionService : AppConnectionService
+    public class ClientConnectionService : AppConnectionService
     {
         //-----------------------------------------------------
-        protected override bool Start()
+        public ClientConnectionService()
+        {
+            Port = 8180;
+            IP = IPAddress.Loopback;
+        }
+        //-----------------------------------------------------
+        public override bool Start()
         {
             try
             {
-                IPEndPoint eP = new(IP, Port);
                 Server = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                Server.Connect(eP);
+                Server.Connect(new IPEndPoint(IP, Port));
             }
-            catch { return false; }
-            finally { Server.Close(); }
+            catch
+            { 
+                Server.Close();
+                return false; 
+            }
 
-            Task.Factory.StartNew(MessageListener, Server);
+            Task.Run(() => MessageListener(Server));
             return true;
         }
         //-----------------------------------------------------
         public override void SendMessage(string msg)
         {
-            Server.Send(Encoding.Unicode.GetBytes(ViewModel().MessageTextParam));
+            Server.Send(Encoding.Unicode.GetBytes(ViewModel.MessageTextParam));
 
-            ViewModel().MessageItems.Add(new(ViewModel().MessageTextParam, true));
-            ViewModel().MessageTextParam = string.Empty;
+            ViewModel.MessageItems.Add(new(ViewModel.MessageTextParam, true));
+            ViewModel.MessageTextParam = string.Empty;
         }
     }
 }

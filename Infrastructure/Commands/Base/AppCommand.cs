@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Chatyx.Infrastructure.Commands.Base
 {
-    internal abstract class AppCommand : ICommand
+    public abstract class AppCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

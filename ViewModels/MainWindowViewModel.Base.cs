@@ -1,14 +1,15 @@
 ﻿using System.Net;
 using System.Windows.Data;
 using Chatyx.Infrastructure.Services;
+using Chatyx.Infrastructure.Services.Connection.Base;
 using Chatyx.ViewModels.Base;
 
 namespace Chatyx.ViewModels
 {
-    partial class MainWindowViewModel : ViewModel
+    public partial class MainWindowViewModel : ViewModel
     {
-        public AppModeService AppMode { get; }
-        public ConnectionService Connect { get; }
+        public AppModeService AppMode { get; set; }
+        public AppConnectionService Connect { get; set; }
         public MainWindowViewModel()
         {
             BindingOperations.EnableCollectionSynchronization(MessageItems, MessageItemsBlock);
@@ -17,16 +18,8 @@ namespace Chatyx.ViewModels
             ShowLoginPanelParam = false;
             ShowChatBoxPanelParam = false;
 
-            AppMode = new AppModeService(this);
-            Connect = new ConnectionService(this);
-
-            IPParam = IPAddress.Loopback.ToString();
-            PortParam = 8180.ToString();
-
             LoginParam = "Admin";
             PasswordParam = "admin";
-
-            _IsClientModeParam = AppMode.Current == AppModeService.Modes.Client;
         }
     }
 }

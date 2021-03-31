@@ -8,47 +8,68 @@ using System.Windows;
 
 namespace Chatyx.Infrastructure.Services.Connection.Base
 {
-    internal abstract class AppConnectionService
+    public abstract class AppConnectionService
     {
         //-----------------------------------------------------
         public Socket Server { get; set; }
-        public IPAddress IP { get; set; }
-        public UInt16 Port { get; set; }
         //-----------------------------------------------------
+        private IPAddress _ip;
+        public IPAddress IP 
+        {
+            get => _ip;
+            set
+            {
+                _ip = value;
+                ViewModel.IPParam = _ip.ToString();
+            }
+        }
+
+        private ushort _port;
+        public ushort Port
+        {
+            get => _port;
+            set
+            {
+                _port = value;
+                ViewModel.PortParam = _port.ToString();
+            }
+        }
+        //-----------------------------------------------------
+        public abstract bool Start();
         public abstract void SendMessage(string msg);
         //-----------------------------------------------------
-        protected abstract bool Start();
+        private MainWindowViewModel vm = (MainWindowViewModel)Application.Current.MainWindow.DataContext;
+        protected MainWindowViewModel ViewModel => vm;
         //-----------------------------------------------------
-        protected MainWindowViewModel ViewModel() => (MainWindowViewModel)Application.Current.MainWindow.DataContext;
-        //-----------------------------------------------------
-        protected virtual void MessageListener(object obj)
+        protected void MessageListener(Socket connect)
         {
-            if (obj is Socket connect)
+            StringBuilder msgBuilder = new();
+            var buff = new byte[256];
+
+            try
             {
-                StringBuilder msgBuilder = new();
-                var buff = new byte[256];
-
-                try
+                while (true)
                 {
-                    while (true)
+                    do
                     {
-                        do
-                        {
-                            int bytes = connect.Receive(buff);
-                            msgBuilder.Append(Encoding.Unicode.GetString(buff, 0, bytes));
-                        } while (connect.Available > 0);
+                        int bytes = connect.Receive(buff);
+                        msgBuilder.Append(Encoding.Unicode.GetString(buff, 0, bytes));
+                    } while (connect.Available > 0);
 
-                        if (String.IsNullOrEmpty(msgBuilder.ToString()) is false)
-                        {
-                            lock (ViewModel().MessageItemsBlock)
-                                ViewModel().MessageItems.Add(new MessageModel(msgBuilder.ToString()));
-                            msgBuilder.Clear();
-                        }
+                    if (String.IsNullOrEmpty(msgBuilder.ToString()) is false)
+                    {
+                        lock (ViewModel.MessageItemsBlock)
+                            ViewModel.MessageItems.Add(new MessageModel(msgBuilder.ToString()));
+                        msgBuilder.Clear();
                     }
                 }
-                catch { MessageListenerCatch(connect); }
-                finally { MessageListenerFinally(connect); }
             }
+            catch (Exception e)
+            {
+                string s = e.Message;
+                MessageListenerCatch(connect); 
+            }
+            finally { MessageListenerFinally(connect); }
         }
         protected virtual void MessageListenerCatch(Socket connect) { }
         protected virtual void MessageListenerFinally(Socket connect) => connect.Close();
