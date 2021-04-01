@@ -1,6 +1,4 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
-using Chatyx.Infrastructure.Services;
-using Chatyx.Infrastructure.Services.Connection;
 using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands

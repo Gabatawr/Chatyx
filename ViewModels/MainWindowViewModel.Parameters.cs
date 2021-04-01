@@ -182,6 +182,17 @@ namespace Chatyx.ViewModels
         }
 
         #endregion
-        //---------------------------------------------------------------------
+        //--------------------------------------------------------------------
+        #region ImageSource : OpenImageParam
+
+        private ImageSource _OpenImageParam;
+        public ImageSource OpenImageParam
+        {
+            get => _OpenImageParam;
+            set => Set(ref _OpenImageParam, value);
+        }
+
+        #endregion ImageSource : OpenImageParam
+        //--------------------------------------------------------------------
     }
 }

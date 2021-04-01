@@ -2,11 +2,9 @@
 using Chatyx.Model.Message;
 using Chatyx.ViewModels;
 using Microsoft.Win32;
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows.Media.Imaging;
 
 namespace Chatyx.Infrastructure.Commands
 {
@@ -17,16 +15,16 @@ namespace Chatyx.Infrastructure.Commands
 
         public override void Command(object e)
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Title = "Open image";
-            op.Filter = "PNG (*.png)|*.png";
+            OpenFileDialog ofd = new();
+            ofd.Title = "Open image";
+            ofd.Filter = "PNG (*.png)|*.png";
 
-            if (op.ShowDialog() == true)
+            if (ofd.ShowDialog() == true)
             {
                 MessageData msg;
                 using (MemoryStream ms = new())
                 {
-                    var b = new Bitmap(op.FileName);
+                    var b = new Bitmap(ofd.FileName);
                     b.Save(ms, ImageFormat.Png);
 
                     msg = new() { Image = ms.ToArray() };

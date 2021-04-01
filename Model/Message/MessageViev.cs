@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Chatyx.Infrastructure.Commands;
+using Chatyx.Infrastructure.Commands.Base;
+using Chatyx.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -15,5 +18,15 @@ namespace Chatyx.Model.Message
         //-----------------------------------------------------
         public MessageViev(MessageData message) => Message = message;
         //-----------------------------------------------------
+        #region Command : OpenImageCommand
+
+        private AppCommand _OpenImageCommand;
+        public AppCommand OpenImageCommand
+        {
+            get => _OpenImageCommand ??= new OpenImageCommand((MainWindowViewModel)Application.Current.MainWindow.DataContext);
+            set => _OpenImageCommand = value;
+        }
+
+        #endregion Command : OpenImageCommand
     }
 }

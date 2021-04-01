@@ -15,6 +15,9 @@
 
         cmd:MouseCommands.MouseLeftButtonDown="{Binding AppCommands[MoveAppCommand]}">
 
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
@@ -201,13 +204,13 @@
                             <Grid Background="#45008DFF" Margin="9,0">
 
                                 <ItemsControl ItemsSource="{Binding MessageItems}">
-                                    
+
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Vertical" VerticalAlignment="Bottom"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
-                                    
+
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             
@@ -224,11 +227,12 @@
                                                         <ColumnDefinition/>
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
-                                                    
+
                                                     <Image Grid.Column="0"
                                                            Source="{Binding Message.Image, Converter={StaticResource ByteToImageConverter}}"
                                                            Stretch="Uniform" MaxHeight="256"
-                                                           cmd:MouseCommands.MouseDown="{Binding OpenImageCommand}"/>
+                                                           cmd:MouseCommands.MouseDown="{Binding OpenImageCommand}">
+                                                    </Image>
 
                                                     <TextBlock Grid.Column="1"
                                                                Text="{Binding Message.Text}"

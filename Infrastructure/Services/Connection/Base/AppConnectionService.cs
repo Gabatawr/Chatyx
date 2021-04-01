@@ -87,7 +87,6 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
             }
             catch (Exception e)
             {
-                string s = e.Message;
                 MessageListenerCatch(connect); 
             }
             finally { MessageListenerFinally(connect); }

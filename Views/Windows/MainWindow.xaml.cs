@@ -8,7 +8,6 @@ namespace Chatyx.Views.Windows
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
         }
     }
 }
