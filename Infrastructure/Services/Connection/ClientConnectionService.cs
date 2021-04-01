@@ -1,9 +1,14 @@
 ﻿using Chatyx.Infrastructure.Services.Connection.Base;
+using Chatyx.Model;
+using Chatyx.Model.Message;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Chatyx.Infrastructure.Services.Connection
 {
@@ -33,12 +38,24 @@ namespace Chatyx.Infrastructure.Services.Connection
             return true;
         }
         //-----------------------------------------------------
-        public override void SendMessage(string msg)
+        protected override void MessageHandler(MessageData msg, Socket sender)
         {
-            Server.Send(Encoding.Unicode.GetBytes(ViewModel.MessageTextParam));
 
-            ViewModel.MessageItems.Add(new(ViewModel.MessageTextParam, true));
-            ViewModel.MessageTextParam = string.Empty;
+        }
+        //-----------------------------------------------------
+        public override void SendMessage(MessageData msg)
+        {
+            BinaryFormatter bf = new();
+
+            using (MemoryStream ms = new())
+            {
+                bf.Serialize(ms, msg);
+                using (NetworkStream ns = new(Server))
+                {
+                    ns.Write(BitConverter.GetBytes(ms.Length));
+                    ns.Write(ms.ToArray());
+                }
+            }
         }
     }
 }

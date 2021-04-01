@@ -1,4 +1,5 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
+using Chatyx.Model.Message;
 using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
@@ -10,7 +11,9 @@ namespace Chatyx.Infrastructure.Commands
 
         public override void Command(object e)
         {
-            vm.Connect.SendMessage(vm.MessageTextParam);
+            MessageData msg = new() { Text = vm.MessageTextParam };
+            vm.Connect.SendMessage(msg);
+            vm.Connect.ViewMessage(msg);
         }
 
         public override bool CanExecute(object e)

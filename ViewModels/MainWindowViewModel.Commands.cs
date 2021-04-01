@@ -40,6 +40,16 @@ namespace Chatyx.ViewModels
         }
 
         #endregion Command : SendMessageTextCommand
+        #region Command : SendMessageImageCommand
+
+        private AppCommand _SendMessageImageCommand;
+        public AppCommand SendMessageImageCommand
+        {
+            get => _SendMessageImageCommand ??= new SendMessageImageCommand(this);
+            set => _SendMessageImageCommand = value;
+        }
+
+        #endregion Command : SendMessageImageCommand
         //---------------------------------------------------------------------
         #region Command : ChangeModeCommand
 

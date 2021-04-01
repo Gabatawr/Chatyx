@@ -9,6 +9,7 @@
         xmlns:ser="clr-namespace:Chatyx.Infrastructure.Services"
         xmlns:vm="clr-namespace:Chatyx.ViewModels"
         xmlns:w="clr-namespace:Chatyx.Views.Windows"
+        xmlns:convert="clr-namespace:Chatyx.Infrastructure.Converters"
         
         WindowStartupLocation="CenterScreen"
 
@@ -156,6 +157,12 @@
 
                 <DockPanel LastChildFill="True"
                            Visibility="{Binding Path=ShowChatBoxPanelParam, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                    <DockPanel.Resources>
+                        <BitmapImage x:Key="SendImageBtn" UriSource="../../Media/send_image.png" />
+                        <BitmapImage x:Key="SendTextBtn" UriSource="../../Media/send_text.png" />
+                        <convert:ByteArrayToBitmapImageConverter x:Key="ByteToImageConverter"/>
+                    </DockPanel.Resources>
                     
                     <Grid DockPanel.Dock="Top" Background="#777DFF"
                           Width="auto" Height="64">
@@ -174,7 +181,8 @@
                                 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="0.1*"/>
+                                    <ColumnDefinition Width="0.05*"/>
+                                    <ColumnDefinition Width="0.08*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox Grid.Column="0" Style="{StaticResource EnterText}"
@@ -186,12 +194,20 @@
                                     </TextBox.InputBindings>
                                     
                                 </TextBox>
-
+                                
                                 <Button Grid.Column="1" Margin="3,0" Height="24"
-                                        FontWeight="Medium" Background="#007DFF" Foreground="White"
-                                        cmd:MouseCommands.Click="{Binding SendMessageTextCommand}">
-                                    Send
+                                        Background="#D4E6FF"
+                                        cmd:MouseCommands.Click="{Binding SendMessageImageCommand}">
+                                    <Image Source="{StaticResource SendImageBtn}" Width="16"/>
                                 </Button>
+
+                                <Button Grid.Column="2" Margin="3,0" Height="24"
+                                        FontWeight="Medium" Background="#C1DBFF" Foreground="White"
+                                        cmd:MouseCommands.Click="{Binding SendMessageTextCommand}">
+                                    <Image Source="{StaticResource SendTextBtn}"/>
+                                </Button>
+
+                                
 
                             </Grid>
                             <Grid Background="#E78282">
@@ -207,20 +223,34 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             
-                                            <Border CornerRadius="8" Background="Black"
+                                            <Border CornerRadius="8"
                                                     Margin="12,6" Padding="6"
                                                     
-                                                    HorizontalAlignment="{Binding Alignment}">
-                                                
-                                                <WrapPanel Orientation="Horizontal">
+                                                    HorizontalAlignment="{Binding Alignment}"
+                                                    Background="{Binding Background}">
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
                                                     
-                                                    <TextBlock Text="{Binding Time}" 
-                                                               Foreground="#B8B8B8" Margin="3,0"/>
-                                                    <TextBlock Text="{Binding Message}"
+                                                    <Image Grid.Column="0"
+                                                           Source="{Binding Message.Image, Converter={StaticResource ByteToImageConverter}}"
+                                                           Stretch="Uniform" MaxHeight="256"
+                                                           cmd:MouseCommands.Click="{Binding OpenImageCommand}"/>
+
+                                                    <TextBlock Grid.Column="1"
+                                                               Text="{Binding Message.Text}"
                                                                Foreground="White" Margin="3,0"/>
-                                                    
-                                                </WrapPanel>
-                                                
+
+                                                    <TextBlock Grid.Column="3" VerticalAlignment="Bottom"
+                                                               Text="{Binding Message.Time}" 
+                                                               Foreground="#B8B8B8" Margin="3,0"/>
+                                                </Grid>
+
                                             </Border>
                                             
                                         </DataTemplate>

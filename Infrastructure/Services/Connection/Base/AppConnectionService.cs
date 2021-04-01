@@ -1,8 +1,11 @@
 ﻿using Chatyx.Model;
+using Chatyx.Model.Message;
 using Chatyx.ViewModels;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows;
 
@@ -36,31 +39,49 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
         }
         //-----------------------------------------------------
         public abstract bool Start();
-        public abstract void SendMessage(string msg);
+        public abstract void SendMessage(MessageData msg);
         //-----------------------------------------------------
         private MainWindowViewModel vm = (MainWindowViewModel)Application.Current.MainWindow.DataContext;
         protected MainWindowViewModel ViewModel => vm;
         //-----------------------------------------------------
         protected void MessageListener(Socket connect)
         {
-            StringBuilder msgBuilder = new();
             var buff = new byte[256];
-
             try
             {
                 while (true)
                 {
-                    do
-                    {
-                        int bytes = connect.Receive(buff);
-                        msgBuilder.Append(Encoding.Unicode.GetString(buff, 0, bytes));
-                    } while (connect.Available > 0);
+                    BinaryFormatter bf = new();
+                    MessageData msg = null;
 
-                    if (String.IsNullOrEmpty(msgBuilder.ToString()) is false)
+                    using (MemoryStream ms = new())
                     {
+                        using (NetworkStream ns = new(connect))
+                        {
+                            int bytes = ns.Read(buff, 0, 256);
+                            int lenght = BitConverter.ToInt32(buff);
+
+                            int count = 0;
+                            do
+                            {
+                                bytes = ns.Read(buff, 0, 256);
+                                ms.Write(buff, 0, bytes);
+                                count += bytes;
+                            } while (count < lenght);
+
+                            ms.Position = 0;
+                        }
+
+                        if (ms.Length > 0)
+                            msg = (MessageData)bf.Deserialize(ms);
+                    }
+
+                    if (msg != null)
+                    {
+                        MessageHandler(msg, connect);
+
                         lock (ViewModel.MessageItemsBlock)
-                            ViewModel.MessageItems.Add(new MessageModel(msgBuilder.ToString()));
-                        msgBuilder.Clear();
+                            ViewModel.MessageItems.Add(new MessageViev(msg));
                     }
                 }
             }
@@ -71,8 +92,14 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
             }
             finally { MessageListenerFinally(connect); }
         }
+        protected virtual void MessageHandler(MessageData msg, Socket sender) { }
         protected virtual void MessageListenerCatch(Socket connect) { }
         protected virtual void MessageListenerFinally(Socket connect) => connect.Close();
         //-----------------------------------------------------
+        public virtual void ViewMessage(MessageData msg)
+        {
+            ViewModel.MessageItems.Add(new MessageViev(msg) { Alignment = HorizontalAlignment.Right });
+            ViewModel.MessageTextParam = string.Empty;
+        }
     }
 }
