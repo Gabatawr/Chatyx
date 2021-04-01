@@ -1,6 +1,4 @@
 ﻿using Chatyx.Infrastructure.Services;
-using Chatyx.Model;
-using Chatyx.Model.Message;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
@@ -174,8 +172,8 @@ namespace Chatyx.ViewModels
         #region ObservableCollection<Symbol> : MessageItems
 
         public object MessageItemsBlock = new();
-        private ObservableCollection<MessageViev> _MessageItems = new();
-        public ObservableCollection<MessageViev> MessageItems
+        private ObservableCollection<MessageVievModel> _MessageItems = new();
+        public ObservableCollection<MessageVievModel> MessageItems
         {
             get => _MessageItems;
             set => Set(ref _MessageItems, value);

@@ -1,28 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chatyx.ViewModels;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Chatyx.Views.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для ShowImageWindow.xaml
-    /// </summary>
     public partial class ShowImageWindow : Window
     {
-        public ShowImageWindow()
+        public ShowImageWindow(ImageSource imageSource)
         {
             InitializeComponent();
-            DataContext = Application.Current.MainWindow.DataContext;
+            var vm = DataContext as ShowImageWindowViewModel;
+
+            vm.OpenImageParam = imageSource;
+
+            vm.CloseAction = new Action(Close);
+            vm.MoveAction = new Action(DragMove);
         }
     }
 }

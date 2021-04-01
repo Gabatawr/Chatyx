@@ -1,15 +1,12 @@
 ﻿using Chatyx.Infrastructure.Services.Connection.Base;
 using Chatyx.Model;
-using Chatyx.Model.Message;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Chatyx.Infrastructure.Services.Connection
 {
@@ -56,12 +53,12 @@ namespace Chatyx.Infrastructure.Services.Connection
             finally { Server.Close(); }
         }
         //-----------------------------------------------------
-        protected override void MessageHandler(MessageData msg, Socket sender)
+        protected override void MessageHandler(MessageModel msg, Socket sender)
             => ForwardMessage(msg, sender);
         protected override void MessageListenerCatch(Socket connect)
             => Clients.Remove(connect);
         //-----------------------------------------------------
-        protected virtual void ForwardMessage(MessageData msg, Socket sender)
+        protected virtual void ForwardMessage(MessageModel msg, Socket sender)
         {
             foreach (var client in Clients)
             {
@@ -71,7 +68,7 @@ namespace Chatyx.Infrastructure.Services.Connection
                 }
             }
         }
-        public override void SendMessage(MessageData msg)
+        public override void SendMessage(MessageModel msg)
         {
             BinaryFormatter bf = new();
             foreach (var client in Clients)

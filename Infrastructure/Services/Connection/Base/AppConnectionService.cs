@@ -1,12 +1,10 @@
 ﻿using Chatyx.Model;
-using Chatyx.Model.Message;
 using Chatyx.ViewModels;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Windows;
 
 namespace Chatyx.Infrastructure.Services.Connection.Base
@@ -39,7 +37,7 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
         }
         //-----------------------------------------------------
         public abstract bool Start();
-        public abstract void SendMessage(MessageData msg);
+        public abstract void SendMessage(MessageModel msg);
         //-----------------------------------------------------
         private MainWindowViewModel vm = (MainWindowViewModel)Application.Current.MainWindow.DataContext;
         protected MainWindowViewModel ViewModel => vm;
@@ -52,7 +50,7 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
                 while (true)
                 {
                     BinaryFormatter bf = new();
-                    MessageData msg = null;
+                    MessageModel msg = null;
 
                     using (MemoryStream ms = new())
                     {
@@ -73,7 +71,7 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
                         }
 
                         if (ms.Length > 0)
-                            msg = (MessageData)bf.Deserialize(ms);
+                            msg = (MessageModel)bf.Deserialize(ms);
                     }
 
                     if (msg != null)
@@ -81,7 +79,7 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
                         MessageHandler(msg, connect);
 
                         lock (ViewModel.MessageItemsBlock)
-                            ViewModel.MessageItems.Add(new MessageViev(msg));
+                            ViewModel.MessageItems.Add(new MessageVievModel(msg));
                     }
                 }
             }
@@ -91,13 +89,13 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
             }
             finally { MessageListenerFinally(connect); }
         }
-        protected virtual void MessageHandler(MessageData msg, Socket sender) { }
+        protected virtual void MessageHandler(MessageModel msg, Socket sender) { }
         protected virtual void MessageListenerCatch(Socket connect) { }
         protected virtual void MessageListenerFinally(Socket connect) => connect.Close();
         //-----------------------------------------------------
-        public virtual void ViewMessage(MessageData msg)
+        public virtual void ViewMessage(MessageModel msg)
         {
-            ViewModel.MessageItems.Add(new MessageViev(msg) { Alignment = HorizontalAlignment.Right });
+            ViewModel.MessageItems.Add(new MessageVievModel(msg) { Alignment = HorizontalAlignment.Right });
             ViewModel.MessageTextParam = string.Empty;
         }
     }

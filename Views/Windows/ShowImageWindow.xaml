@@ -7,15 +7,17 @@
 
         xmlns:cmd="clr-namespace:Chatyx.Infrastructure.Commands"
         xmlns:w="clr-namespace:Chatyx.Views.Windows"
-        xmlns:convert="clr-namespace:Chatyx.Infrastructure.Converters"
+        xmlns:vm="clr-namespace:Chatyx.ViewModels"
         
         WindowStartupLocation="CenterScreen"
 
-        cmd:MouseCommands.MouseLeftButtonDown="{Binding AppCommands[MoveAppCommand]}">
+        cmd:MouseCommands.MouseLeftButtonDown="{Binding MoveWindowCommand}"
+        cmd:MouseCommands.MouseRightButtonDown="{Binding CloseWindowCommand}">
 
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    </Window.Resources>
+    <Window.DataContext>
+        <vm:ShowImageWindowViewModel/>
+    </Window.DataContext>
+    
     <Window.Style>
         <Style TargetType="{x:Type w:ShowImageWindow}">
 
@@ -47,28 +49,7 @@
 
     <Grid>
         <DockPanel LastChildFill="True">
-
-            <Grid DockPanel.Dock="Top">
-
-                <Grid Height="14" Width="30" Margin="12" VerticalAlignment="Top" 
-                      HorizontalAlignment="Right">
-
-                    <Button ToolTip="Minimize" Style="{StaticResource BtnAppControl}"
-                        HorizontalAlignment="Left" Background="Yellow"
-                        Command="{Binding AppCommands[MinimizeAppCommand]}"/>
-
-                    <Button ToolTip="Close" Style="{StaticResource BtnAppControl}"
-                        HorizontalAlignment="Right"  Background="Red"
-                        Command="{Binding AppCommands[CloseAppCommand]}"/>
-                </Grid>
-
-                <Border ToolTip="Connection status"
-                        VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                        BorderThickness="0" CornerRadius="0,0,200,200"
-                        Width="auto" Height="6" Margin="1,0,1,0"
-                        Background="{Binding ConnectColorParam}"/>
-            </Grid>
-
+            
             <Grid>
                 <Image Source="{Binding OpenImageParam}"
                        Stretch="Uniform"/>

@@ -1,6 +1,5 @@
 ﻿using Chatyx.Infrastructure.Services.Connection.Base;
 using Chatyx.Model;
-using Chatyx.Model.Message;
 using System;
 using System.IO;
 using System.Net;
@@ -38,12 +37,12 @@ namespace Chatyx.Infrastructure.Services.Connection
             return true;
         }
         //-----------------------------------------------------
-        protected override void MessageHandler(MessageData msg, Socket sender)
+        protected override void MessageHandler(MessageModel msg, Socket sender)
         {
 
         }
         //-----------------------------------------------------
-        public override void SendMessage(MessageData msg)
+        public override void SendMessage(MessageModel msg)
         {
             BinaryFormatter bf = new();
 

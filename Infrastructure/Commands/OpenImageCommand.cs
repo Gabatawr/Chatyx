@@ -1,7 +1,6 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.ViewModels;
 using Chatyx.Views.Windows;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -14,9 +13,7 @@ namespace Chatyx.Infrastructure.Commands
 
         public override void Command(object e)
         {
-            vm.OpenImageParam = ((e as MouseEventArgs).Source as Image).Source;
-
-            ShowImageWindow wnd = new();
+            ShowImageWindow wnd = new(((e as MouseEventArgs).Source as Image).Source);
             wnd.Show();
         }
 

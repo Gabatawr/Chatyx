@@ -1,5 +1,5 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
-using Chatyx.Model.Message;
+using Chatyx.Model;
 using Chatyx.ViewModels;
 using Microsoft.Win32;
 using System.Drawing;
@@ -21,7 +21,7 @@ namespace Chatyx.Infrastructure.Commands
 
             if (ofd.ShowDialog() == true)
             {
-                MessageData msg;
+                MessageModel msg;
                 using (MemoryStream ms = new())
                 {
                     var b = new Bitmap(ofd.FileName);

@@ -1,14 +1,11 @@
 ﻿using Chatyx.ViewModels;
 using System;
-using System.Drawing;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
-namespace Chatyx.Model.Message
+namespace Chatyx.Model
 {
     [Serializable]
-    public class MessageData
+    public class MessageModel
     {
         //-----------------------------------------------------
         public string Time { get; init; } = " " + DateTime.Now.ToString("t");
