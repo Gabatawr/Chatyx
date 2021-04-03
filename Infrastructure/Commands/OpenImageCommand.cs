@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Chatyx.Infrastructure.Commands
 {
-    class OpenImageCommand : AppCommand
+    class OpenImagesCommand : AppCommand
     {
         public override void Command(object e)
         {

@@ -1,11 +1,8 @@
-﻿using Chatyx.Infrastructure.Commands;
-using Chatyx.Infrastructure.Commands.Base;
+﻿using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.ViewModels.Base;
 using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Chatyx.ViewModels
 {

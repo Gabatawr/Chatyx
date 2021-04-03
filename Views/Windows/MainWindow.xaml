@@ -6,8 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         xmlns:cmd="clr-namespace:Chatyx.Infrastructure.Commands"
-        xmlns:service="clr-namespace:Chatyx.Infrastructure.Services"
         xmlns:vm="clr-namespace:Chatyx.ViewModels"
+        xmlns:ext="clr-namespace:Chatyx.Infrastructure.Extensions"
         xmlns:convert="clr-namespace:Chatyx.Infrastructure.Converters"
         
         WindowStartupLocation="CenterScreen"
@@ -105,8 +105,8 @@
                     <TextBlock Style="{StaticResource HeaderText}">Password</TextBlock>
                     <PasswordBox Style="{StaticResource PasswordStyle}"
                                  Margin="0,2" Height="24" 
-                                 service:PasswordService.BindPassword="true"
-                                 service:PasswordService.TextPassword="{Binding PasswordParam, Mode=TwoWay}"/>
+                                 ext:PasswordBoxExtensions.BindPassword="true"
+                                 ext:PasswordBoxExtensions.TextPassword="{Binding PasswordParam, Mode=TwoWay}"/>
 
                     <Grid Margin="0,18,0,0">
                         <Grid.ColumnDefinitions>
@@ -154,7 +154,7 @@
                                          Text="{Binding MessageTextParam, UpdateSourceTrigger=PropertyChanged}">
                                     
                                     <TextBox.InputBindings>
-                                        <KeyBinding Key="Enter" Command="{Binding SendMessageTextCommand}"/>
+                                        <KeyBinding Key="Enter" Command="{Binding SendMessageCommands[SendMessageTextCommand]}"/>
                                     </TextBox.InputBindings>
                                     
                                 </TextBox>
@@ -181,15 +181,20 @@
 
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
+                                            
                                             <StackPanel Orientation="Vertical" VerticalAlignment="Bottom"/>
+
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
 
                                     <ItemsControl.Template>
                                         <ControlTemplate>
-                                            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+
+                                            <ScrollViewer x:Name="Scroller" VerticalScrollBarVisibility="Hidden"
+                                                          ext:ScrollViewerExtensions.AutoDrop="True">
                                                 <ItemsPresenter/>
                                             </ScrollViewer>
+                                            
                                         </ControlTemplate>
                                     </ItemsControl.Template>
 

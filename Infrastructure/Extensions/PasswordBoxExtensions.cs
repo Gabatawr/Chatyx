@@ -1,15 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Chatyx.Infrastructure.Services
+namespace Chatyx.Infrastructure.Extensions
 {
-    internal static class PasswordService
+    internal static class PasswordBoxExtensions
     {
         //---------------------------------------------------------------------
 
         public static readonly DependencyProperty TextPassword = DependencyProperty.RegisterAttached
         (
-            "TextPassword", typeof(string), typeof(PasswordService),
+            "TextPassword", typeof(string), typeof(PasswordBoxExtensions),
             new PropertyMetadata(string.Empty, OnTextPasswordChanged)
         );
         public static string GetTextPassword(DependencyObject dp) => (string)dp.GetValue(TextPassword);
@@ -19,7 +19,7 @@ namespace Chatyx.Infrastructure.Services
 
         public static readonly DependencyProperty BindPassword = DependencyProperty.RegisterAttached
         (
-            "BindPassword", typeof(bool), typeof(PasswordService),
+            "BindPassword", typeof(bool), typeof(PasswordBoxExtensions),
             new PropertyMetadata(false, OnBindPasswordChanged)
         );
         public static void SetBindPassword(DependencyObject dp, bool value) => dp.SetValue(BindPassword, value);
@@ -29,7 +29,7 @@ namespace Chatyx.Infrastructure.Services
 
         private static readonly DependencyProperty UpdatingPassword = DependencyProperty.RegisterAttached
         (
-            "UpdatingPassword", typeof(bool), typeof(PasswordService),
+            "UpdatingPassword", typeof(bool), typeof(PasswordBoxExtensions),
             new PropertyMetadata(false)
         );
         private static bool GetUpdatingPassword(DependencyObject dp) => (bool)dp.GetValue(UpdatingPassword);

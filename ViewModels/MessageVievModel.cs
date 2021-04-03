@@ -22,7 +22,7 @@ namespace Chatyx.ViewModels
         private AppCommand _OpenImagesCommand;
         public AppCommand OpenImagesCommand
         {
-            get => _OpenImagesCommand ??= new OpenImageCommand();
+            get => _OpenImagesCommand ??= new OpenImagesCommand();
             set => _OpenImagesCommand = value;
         }
 
