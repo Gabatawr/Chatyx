@@ -78,13 +78,13 @@ namespace Chatyx.ViewModels
         private void ExecuteChangeImageCommand(MouseWheelEventArgs e)
         {
             int pos = ImageCollection.IndexOf(CurrentImageParam);
-            if (e.Delta > 0)
+            if (e.Delta < 0)
             {
                 if (pos < ImageCollection.Count - 1) CurrentImageParam = ImageCollection[pos + 1];
             }
             else
             {
-                if (pos > 1) CurrentImageParam = ImageCollection[pos - 1];
+                if (pos > 0) CurrentImageParam = ImageCollection[pos - 1];
             }
         }
         private bool CanExecuteChangeImageCommand(MouseWheelEventArgs e) => ImageCollection.Count > 1;
