@@ -1,19 +1,16 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.Model;
-using Chatyx.ViewModels;
+using System.Windows;
 
 namespace Chatyx.Infrastructure.Commands
 {
     class SendMessageTextCommand : AppCommand
     {
-        private readonly MainWindowViewModel vm;
-        public SendMessageTextCommand(MainWindowViewModel vm) => this.vm = vm;
-
         public override void Command(object e)
         {
             MessageModel msg = new() { Text = vm.MessageTextParam };
-            vm.Connect.SendMessage(msg);
-            vm.Connect.ViewMessage(msg);
+            vm.AppConnect.SendMessage(msg);
+            vm.ViewMessage(msg, HorizontalAlignment.Right);
         }
 
         public override bool CanExecute(object e)

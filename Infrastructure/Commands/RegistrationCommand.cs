@@ -5,9 +5,6 @@ namespace Chatyx.Infrastructure.Commands
 {
     class RegistrationCommand : AppCommand
     {
-        private readonly MainWindowViewModel vm;
-        public RegistrationCommand(MainWindowViewModel vm) => this.vm = vm;
-
         public override void Command(object e)
         {
             

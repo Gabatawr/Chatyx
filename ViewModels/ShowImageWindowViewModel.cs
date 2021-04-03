@@ -2,6 +2,7 @@
 using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.ViewModels.Base;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -10,17 +11,6 @@ namespace Chatyx.ViewModels
 {
     class ShowImageWindowViewModel : ViewModel
     {
-        #region ImageSource : OpenImageParam
-
-        private ImageSource _OpenImageParam;
-        public ImageSource OpenImageParam
-        {
-            get => _OpenImageParam;
-            set => Set(ref _OpenImageParam, value);
-        }
-
-        #endregion ImageSource : OpenImageParam
-
         #region Command : CloseWindowCommand
         public Action CloseAction { get; set; }
 
@@ -51,5 +41,54 @@ namespace Chatyx.ViewModels
         private void ExecuteMoveWindowCommand(MouseEventArgs e) => MoveAction.Invoke();
 
         #endregion Command : MoveWindowCommand
+
+        #region byte[] : CurrentImageParam
+
+        private byte[] _CurrentImageParam;
+        public byte[] CurrentImageParam
+        {
+            get => _CurrentImageParam;
+            set => Set(ref _CurrentImageParam, value);
+        }
+
+        #endregion byte[] : CurrentImageParam
+        #region List<byte[]> : ImageCollections
+
+        private List<byte[]> _ImageCollection;
+        public List<byte[]> ImageCollection
+        {
+            get => _ImageCollection;
+            set => Set(ref _ImageCollection, value);
+        }
+
+        #endregion List<byte[]> : ImageCollections
+
+        #region Command : ChangeImageCommand
+
+        private AppCommand _ChangeImageCommand;
+        public AppCommand ChangeImageCommand
+        {
+            get => _ChangeImageCommand ?? new ActionCommand
+                (
+                    param => ExecuteChangeImageCommand((MouseWheelEventArgs)param),
+                    param => CanExecuteChangeImageCommand((MouseWheelEventArgs)param)
+                );
+            set => _ChangeImageCommand = value;
+        }
+        private void ExecuteChangeImageCommand(MouseWheelEventArgs e)
+        {
+            int pos = ImageCollection.IndexOf(CurrentImageParam);
+            if (e.Delta > 0)
+            {
+                if (pos < ImageCollection.Count - 1) CurrentImageParam = ImageCollection[pos + 1];
+            }
+            else
+            {
+                if (pos > 1) CurrentImageParam = ImageCollection[pos - 1];
+            }
+        }
+        private bool CanExecuteChangeImageCommand(MouseWheelEventArgs e) => ImageCollection.Count > 1;
+
+        #endregion Command : ChangeImageCommand
     }
 }

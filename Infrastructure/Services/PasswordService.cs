@@ -5,6 +5,8 @@ namespace Chatyx.Infrastructure.Services
 {
     internal static class PasswordService
     {
+        //---------------------------------------------------------------------
+
         public static readonly DependencyProperty TextPassword = DependencyProperty.RegisterAttached
         (
             "TextPassword", typeof(string), typeof(PasswordService),
@@ -68,5 +70,7 @@ namespace Chatyx.Infrastructure.Services
                 SetUpdatingPassword(box, false);
             }
         }
+
+        //---------------------------------------------------------------------
     }
 }

@@ -1,5 +1,6 @@
-﻿using System.Windows.Media;
-
+﻿using Chatyx.Model;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Chatyx.ViewModels
 {
@@ -39,6 +40,18 @@ namespace Chatyx.ViewModels
             ShowChatBoxPanelParam = false;
         }
         #endregion AppLoginOFF
+        //---------------------------------------------------------------------
+        #region ViewMessage
+
+        public void ViewMessage(MessageModel msg, HorizontalAlignment alignment = HorizontalAlignment.Left)
+        {
+            lock (MessageItemsBlock)
+                MessageItems.Add(new MessageVievModel(msg) { Alignment = alignment });
+
+            MessageTextParam = string.Empty;
+        }
+
+        #endregion ViewMessage
         //---------------------------------------------------------------------
     }
 }

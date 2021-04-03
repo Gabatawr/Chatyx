@@ -9,7 +9,7 @@ namespace Chatyx.ViewModels
     public partial class MainWindowViewModel : ViewModel
     {
         public AppModeService AppMode { get; set; }
-        public AppConnectionService Connect { get; set; }
+        public AppConnectionService AppConnect { get; set; }
         public MainWindowViewModel()
         {
             BindingOperations.EnableCollectionSynchronization(MessageItems, MessageItemsBlock);

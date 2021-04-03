@@ -1,16 +1,12 @@
 ﻿using Chatyx.Infrastructure.Commands.Base;
-using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
 {
     class ConnectCommand : AppCommand
     {
-        private readonly MainWindowViewModel vm;
-        public ConnectCommand(MainWindowViewModel vm) => this.vm = vm;
-
         public override void Command(object e)
         {
-            if (vm.Connect.Start())
+            if (vm.AppConnect.Start())
                 vm.AppConnected();
             else
                 vm.AppDisconnected();

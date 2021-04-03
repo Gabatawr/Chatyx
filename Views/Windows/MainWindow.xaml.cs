@@ -1,13 +1,9 @@
-﻿using Chatyx.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Chatyx.Views.Windows
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        public MainWindow() => InitializeComponent();
     }
 }

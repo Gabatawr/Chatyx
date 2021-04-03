@@ -17,15 +17,16 @@ namespace Chatyx.ViewModels
         //-----------------------------------------------------
         public MessageVievModel(MessageModel message) => Message = message;
         //-----------------------------------------------------
-        #region Command : OpenImageCommand
+        #region Command : OpenImagesCommand
 
-        private AppCommand _OpenImageCommand;
-        public AppCommand OpenImageCommand
+        private AppCommand _OpenImagesCommand;
+        public AppCommand OpenImagesCommand
         {
-            get => _OpenImageCommand ??= new OpenImageCommand((MainWindowViewModel)Application.Current.MainWindow.DataContext);
-            set => _OpenImageCommand = value;
+            get => _OpenImagesCommand ??= new OpenImageCommand();
+            set => _OpenImagesCommand = value;
         }
 
-        #endregion Command : OpenImageCommand
+        #endregion Command : OpenImagesCommand
+        //-----------------------------------------------------
     }
 }

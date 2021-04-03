@@ -6,10 +6,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         xmlns:cmd="clr-namespace:Chatyx.Infrastructure.Commands"
-        xmlns:w="clr-namespace:Chatyx.Views.Windows"
         xmlns:vm="clr-namespace:Chatyx.ViewModels"
+        xmlns:convert="clr-namespace:Chatyx.Infrastructure.Converters"
         
         WindowStartupLocation="CenterScreen"
+        Style="{StaticResource WindowStyle}"
 
         cmd:MouseCommands.MouseLeftButtonDown="{Binding MoveWindowCommand}"
         cmd:MouseCommands.MouseRightButtonDown="{Binding CloseWindowCommand}">
@@ -17,43 +18,22 @@
     <Window.DataContext>
         <vm:ShowImageWindowViewModel/>
     </Window.DataContext>
-    
-    <Window.Style>
-        <Style TargetType="{x:Type w:ShowImageWindow}">
-
-            <Setter Property="Height" Value="450"/>
-            <Setter Property="MinHeight" Value="225"/>
-
-            <Setter Property="Width" Value="800"/>
-            <Setter Property="MinWidth" Value="400"/>
-
-            <Setter Property="WindowStyle" Value="None"/>
-            <Setter Property="AllowsTransparency" Value="True"/>
-            <Setter Property="ResizeMode" Value="CanResize"/>
-
-            <Setter Property="Background" Value="#E8080018"/>
-
-            <Setter Property="WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <WindowChrome
-                        NonClientFrameEdges="None"
-                        GlassFrameThickness="0"
-                        ResizeBorderThickness="3,0,3,3"
-                        CaptionHeight="12"
-                        CornerRadius="0"/>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-    </Window.Style>
 
     <Grid>
         <DockPanel LastChildFill="True">
-            
-            <Grid>
-                <Image Source="{Binding OpenImageParam}"
-                       Stretch="Uniform"/>
-            </Grid>
+
+            <DockPanel.Resources>
+                <convert:ByteArrayToBitmapImageConverter x:Key="ByteToImageConverter"/>
+            </DockPanel.Resources>
+
+            <DockPanel LastChildFill="True">
+
+                <Image DockPanel.Dock="Top"
+                       Source="{Binding CurrentImageParam, Converter={StaticResource ByteToImageConverter}}"
+                       Stretch="Uniform"
+                       cmd:MouseCommands.MouseWheel="{Binding ChangeImageCommand}"/>
+                
+            </DockPanel>
             
         </DockPanel>
     </Grid>

@@ -1,5 +1,6 @@
 ﻿using Chatyx.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace Chatyx.Model
@@ -13,7 +14,7 @@ namespace Chatyx.Model
         public string SenderName { get; } = ((MainWindowViewModel)Application.Current.MainWindow.DataContext).LoginParam;
         //-----------------------------------------------------
         public string? Text { get; init; }
-        public byte[]? Image { get; init; }
+        public List<byte[]> Images { get; init; }
         //-----------------------------------------------------
     }
 }

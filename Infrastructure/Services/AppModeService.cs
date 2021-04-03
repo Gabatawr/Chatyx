@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Chatyx.Infrastructure.Services.Connection;
-using Chatyx.ViewModels;
+using Chatyx.ViewModels.Base;
 
 namespace Chatyx.Infrastructure.Services
 {
@@ -13,7 +13,7 @@ namespace Chatyx.Infrastructure.Services
         //-----------------------------------------------------
         public enum Modes { Client, Server }
         //-----------------------------------------------------
-        private Modes _current;
+        private Modes _current = Modes.Client;
         public Modes Current 
         {
             get => _current;
@@ -21,7 +21,7 @@ namespace Chatyx.Infrastructure.Services
             {
                 _current = value;
 
-                vm.Connect = _current switch
+                ViewModel.MainWindow.AppConnect = _current switch
                 {
                     Modes.Client => new ClientConnectionService(),
                     Modes.Server => new ServerConnectionService(),
@@ -29,13 +29,6 @@ namespace Chatyx.Infrastructure.Services
                     _ => throw new System.NotImplementedException()
                 };
             }
-        }
-        //-----------------------------------------------------
-        private MainWindowViewModel vm;
-        public AppModeService()
-        {
-            vm = (MainWindowViewModel)Application.Current.MainWindow.DataContext;
-            Current = Modes.Client;
         }
         //-----------------------------------------------------
     }

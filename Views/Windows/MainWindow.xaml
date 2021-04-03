@@ -6,49 +6,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
         xmlns:cmd="clr-namespace:Chatyx.Infrastructure.Commands"
-        xmlns:ser="clr-namespace:Chatyx.Infrastructure.Services"
+        xmlns:service="clr-namespace:Chatyx.Infrastructure.Services"
         xmlns:vm="clr-namespace:Chatyx.ViewModels"
-        xmlns:w="clr-namespace:Chatyx.Views.Windows"
         xmlns:convert="clr-namespace:Chatyx.Infrastructure.Converters"
         
         WindowStartupLocation="CenterScreen"
-
+        Style="{StaticResource WindowStyle}"
+        
         cmd:MouseCommands.MouseLeftButtonDown="{Binding AppCommands[MoveAppCommand]}">
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    </Window.Resources>
-    <Window.Style>
-        <Style TargetType="{x:Type w:MainWindow}">
-
-            <Setter Property="Height" Value="450"/>
-            <Setter Property="MinHeight" Value="225"/>
-
-            <Setter Property="Width" Value="800"/>
-            <Setter Property="MinWidth" Value="400"/>
-
-            <Setter Property="WindowStyle" Value="None"/>
-            <Setter Property="AllowsTransparency" Value="True"/>
-            <Setter Property="ResizeMode" Value="CanResize"/>
-
-            <Setter Property="Background" Value="#E8080018"/>
-
-            <Setter Property="WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <WindowChrome
-                        NonClientFrameEdges="None"
-                        GlassFrameThickness="0"
-                        ResizeBorderThickness="3,0,3,3"
-                        CaptionHeight="12"
-                        CornerRadius="0"/>
-                </Setter.Value>
-            </Setter>
-
-        </Style>
-    </Window.Style>
 
     <Grid>
         <DockPanel LastChildFill="True">
@@ -77,6 +46,10 @@
             <!--........................................................................-->
 
             <Grid>
+                <Grid.Resources>
+                    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                </Grid.Resources>
+                
                 <StackPanel Margin="6,0" Orientation="Vertical"
                             MaxHeight="144" MaxWidth="378"
                             Visibility="{Binding Path=ShowConnectPanelParam, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -132,8 +105,8 @@
                     <TextBlock Style="{StaticResource HeaderText}">Password</TextBlock>
                     <PasswordBox Style="{StaticResource PasswordStyle}"
                                  Margin="0,2" Height="24" 
-                                 ser:PasswordService.BindPassword="true"
-                                 ser:PasswordService.TextPassword="{Binding PasswordParam, Mode=TwoWay}"/>
+                                 service:PasswordService.BindPassword="true"
+                                 service:PasswordService.TextPassword="{Binding PasswordParam, Mode=TwoWay}"/>
 
                     <Grid Margin="0,18,0,0">
                         <Grid.ColumnDefinitions>
@@ -188,19 +161,20 @@
                                 
                                 <Button Grid.Column="1" Margin="3,0" Height="24"
                                         Background="#D4E6FF"
-                                        cmd:MouseCommands.Click="{Binding SendMessageImageCommand}">
+                                        cmd:MouseCommands.Click="{Binding SendMessageCommands[SendMessageImageCommand]}">
                                     <Image Source="{StaticResource SendImageBtn}" Width="16"
                                            RenderOptions.BitmapScalingMode="HighQuality"/>
                                 </Button>
 
                                 <Button Grid.Column="2" Margin="3,0" Height="24"
                                         FontWeight="Medium" Background="#C1DBFF" Foreground="White"
-                                        cmd:MouseCommands.Click="{Binding SendMessageTextCommand}">
+                                        cmd:MouseCommands.Click="{Binding SendMessageCommands[SendMessageTextCommand]}">
                                     <Image Source="{StaticResource SendTextBtn}" Width="16"
                                            RenderOptions.BitmapScalingMode="HighQuality"/>
                                 </Button>
 
                             </Grid>
+                            
                             <Grid Background="#45008DFF" Margin="9,0">
 
                                 <ItemsControl ItemsSource="{Binding MessageItems}">
@@ -211,12 +185,19 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
 
+                                    <ItemsControl.Template>
+                                        <ControlTemplate>
+                                            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                                                <ItemsPresenter/>
+                                            </ScrollViewer>
+                                        </ControlTemplate>
+                                    </ItemsControl.Template>
+
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             
                                             <Border CornerRadius="8"
                                                     Margin="12,6" Padding="6"
-                                                    
                                                     HorizontalAlignment="{Binding Alignment}"
                                                     Background="{Binding Background}">
 
@@ -228,11 +209,25 @@
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <Image Grid.Column="0"
-                                                           Source="{Binding Message.Image, Converter={StaticResource ByteToImageConverter}}"
-                                                           Stretch="Uniform" MaxHeight="256"
-                                                           cmd:MouseCommands.MouseDown="{Binding OpenImageCommand}">
-                                                    </Image>
+                                                    <ItemsControl Grid.Column="0" Background="Transparent"
+                                                                  ItemsSource="{Binding Message.Images}"
+                                                                  cmd:MouseCommands.MouseDown="{Binding OpenImagesCommand}">
+
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <WrapPanel Orientation="Horizontal"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+
+                                                                <Image Source="{Binding DataContext, RelativeSource={RelativeSource Self}, Converter={StaticResource ByteToImageConverter}}"
+                                                                    Stretch="Uniform" MaxHeight="256" Margin="1,1"/>
+
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
 
                                                     <TextBlock Grid.Column="1"
                                                                Text="{Binding Message.Text}"

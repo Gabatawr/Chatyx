@@ -1,18 +1,12 @@
-﻿using System.Net;
-using System.Net.Sockets;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Chatyx.Infrastructure.Commands.Base;
 using Chatyx.Infrastructure.Services;
-using Chatyx.ViewModels;
 
 namespace Chatyx.Infrastructure.Commands
 {
     class ChangeModeCommand : AppCommand
     {
-        private readonly MainWindowViewModel vm;
-        public ChangeModeCommand(MainWindowViewModel vm) => this.vm = vm;
-
         public override void Command(object e)
         {
             if (vm.AppMode == null) vm.AppMode = new();

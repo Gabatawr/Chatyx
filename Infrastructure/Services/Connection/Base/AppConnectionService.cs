@@ -1,5 +1,6 @@
 ﻿using Chatyx.Model;
 using Chatyx.ViewModels;
+using Chatyx.ViewModels.Base;
 using System;
 using System.IO;
 using System.Net;
@@ -21,7 +22,7 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
             set
             {
                 _ip = value;
-                ViewModel.IPParam = _ip.ToString();
+                ViewModel.MainWindow.IPParam = _ip.ToString();
             }
         }
 
@@ -32,15 +33,12 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
             set
             {
                 _port = value;
-                ViewModel.PortParam = _port.ToString();
+                ViewModel.MainWindow.PortParam = _port.ToString();
             }
         }
         //-----------------------------------------------------
         public abstract bool Start();
         public abstract void SendMessage(MessageModel msg);
-        //-----------------------------------------------------
-        private MainWindowViewModel vm = (MainWindowViewModel)Application.Current.MainWindow.DataContext;
-        protected MainWindowViewModel ViewModel => vm;
         //-----------------------------------------------------
         protected void MessageListener(Socket connect)
         {
@@ -77,26 +75,16 @@ namespace Chatyx.Infrastructure.Services.Connection.Base
                     if (msg != null)
                     {
                         MessageHandler(msg, connect);
-
-                        lock (ViewModel.MessageItemsBlock)
-                            ViewModel.MessageItems.Add(new MessageVievModel(msg));
+                        ViewModel.MainWindow.ViewMessage(msg);
                     }
                 }
             }
-            catch (Exception e)
-            {
-                MessageListenerCatch(connect); 
-            }
+            catch { MessageListenerCatch(connect); }
             finally { MessageListenerFinally(connect); }
         }
         protected virtual void MessageHandler(MessageModel msg, Socket sender) { }
         protected virtual void MessageListenerCatch(Socket connect) { }
         protected virtual void MessageListenerFinally(Socket connect) => connect.Close();
         //-----------------------------------------------------
-        public virtual void ViewMessage(MessageModel msg)
-        {
-            ViewModel.MessageItems.Add(new MessageVievModel(msg) { Alignment = HorizontalAlignment.Right });
-            ViewModel.MessageTextParam = string.Empty;
-        }
     }
 }

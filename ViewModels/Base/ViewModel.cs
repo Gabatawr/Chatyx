@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace Chatyx.ViewModels.Base
 {
     public abstract class ViewModel : INotifyPropertyChanged
     {
+        public static MainWindowViewModel MainWindow => (MainWindowViewModel)Application.Current.MainWindow.DataContext;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propName = null)
